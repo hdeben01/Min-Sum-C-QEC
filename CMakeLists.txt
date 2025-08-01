@@ -1,0 +1,9 @@
+cmake_minimum_required(VERSION 3.10.0)
+project(minsum_c VERSION 0.1.0 LANGUAGES C)
+
+include_directories(include)
+add_executable(minsum_c main.c)
+configure_file(${CMAKE_SOURCE_DIR}/input.txt ${CMAKE_BINARY_DIR}/input.txt COPYONLY)
+include(CTest)
+enable_testing()
+
