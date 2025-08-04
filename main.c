@@ -35,14 +35,10 @@ void compute_col_operations(float L[CHECK][VNODES], int* syndrome, int size_chec
 
 //size neigh > 0 y size_syn > 0
 //esta función dada una matriz L de mensajes calcula los mensajes que reciben los value nodes de los check nodes y por tanto equivalen al mensaje del "check node"
-void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode, float codeword[CHECK]){
+void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode, float codeword[CHECK], float alpha){
     
     compute_row_operations(L, syndrome, size_checks, size_vnode);
 
-    // Scaling factor for Monte Carlo Simulations
-    // 1 in classical computing
-    float alpha = 1.0f;
-    
     compute_col_operations(L, syndrome, size_checks, size_vnode, alpha, codeword);
 
     // Correct syndrome from the values of the codeword
@@ -53,6 +49,7 @@ void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_chec
         if (codeword[j] >= 0) syndrome[j] = 0;
         else syndrome[j] = 1;
     }
+
 }
 
 void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode){
@@ -118,20 +115,32 @@ void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_chec
 
 void compute_col_operations(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode, int alpha, float codeword[CHECK]){
     
-    // Esta parte está 100% bien 😭 ya que porfin entendí como iba
+    // Esta parte está 100% bien 😭 ya que porfin entendí como iba 🔥
+
+    float sum[CHECK];
 
     for (int j = 0; j < VNODES; j++){
         if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
-        float sum = 0.0f;
+        float suma_aux = 0.0f;
         for(int i = 0; i < CHECK; i++){
             if (i == size_checks) break;
 
-            sum += L[i][j];
+            suma_aux += L[i][j];
         }
 
-        codeword[j] = codeword[j] + alpha * sum;
+        sum[j] = codeword[j] + alpha * suma_aux;
+    }
+
+    for (int i = 0; i < CHECK; i++){
+        if(i == size_checks) break;
+
+        for (int j = 0; j < VNODES; j++){
+            if(j == size_vnode) break;
+
+            if(L[i][j] != 0) L[i][j] = sum[j] - L[i][j];
+        }
     }
 
 }
@@ -142,6 +151,15 @@ int main() {
     FILE *file = fopen("input.txt","r");
     if (file == NULL){
         perror("Error opening file");
+        return 1;
+    }
+
+
+    // Read alpha
+    float alpha;
+    if (fscanf(file, "%f", &alpha) != 1) {
+        fprintf(stderr, "Error reading alpha\n");
+        fclose(file);
         return 1;
     }
 
@@ -186,7 +204,7 @@ int main() {
 
     float out[CHECK][VNODES];
 
-    compute_check_to_value(L, syndrome, rows, cols, codeword);
+    compute_check_to_value(L, syndrome, rows, cols, codeword, alpha);
 
     // Show Matrix L 
     printf("Matrix L:\n");
