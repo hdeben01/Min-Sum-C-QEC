@@ -12,8 +12,7 @@ resultado, ya que el síndrome que has puesto tú (señor Hugo de Benito), es lo
 sale como resultado en el paper, no el inicial (eso sería el codeword pero eso no nos vale en QEC)
 
 Para el clásico en sí el algortimo está bien, porque si quitas la parte del síndrome que afecta en el 
-paso 2, el resultado sale como en el paper, aunque no entendí bien la parte de las iteraciones al final
-ni de dónde salen los nuevos valores de L
+paso 2, el resultado sale como en el paper, falta hacer que se hagan los loops
 
 
 He añadido el codeword para comprobar como se haría en clásico, luego me base en el paper 
@@ -155,14 +154,6 @@ int main() {
     }
 
 
-    // Read alpha
-    float alpha;
-    if (fscanf(file, "%f", &alpha) != 1) {
-        fprintf(stderr, "Error reading alpha\n");
-        fclose(file);
-        return 1;
-    }
-
     // Read rows and cols
     int rows,cols;
     if (fscanf(file, "%d %d", &rows, &cols) != 2) {
@@ -202,6 +193,14 @@ int main() {
         }
     }
 
+    // Read alpha
+    float alpha;
+    if (fscanf(file, "%f", &alpha) != 1) {
+        fprintf(stderr, "Error reading alpha\n");
+        fclose(file);
+        return 1;
+    }
+
     float out[CHECK][VNODES];
 
     compute_check_to_value(L, syndrome, rows, cols, codeword, alpha);
@@ -215,11 +214,6 @@ int main() {
         printf("\n");
     }
     printf("\n");
-
-    // Show corrected codeword
-    printf("Corrected Codeword:");
-    for(int j = 0; j < cols; j++) printf(" %f", codeword[j]);
-    printf("\n\n");
 
     // Show corrected syndrome
     printf("Corrected Syndrome:");
