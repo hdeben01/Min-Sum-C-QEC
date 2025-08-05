@@ -37,12 +37,15 @@ void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_chec
             if (sum[j] >= 0) error[j] = 0;
             else error[j] = 1;
         }
+        // ----------- DEBUG PRINT --------------
         printf("error computed: ");
         for(int j = 0; j < VNODES; j++){
 
             printf("%d ",error[j]);
         }
         printf("\n");
+
+        //------------------------------------------
         //compute S = eH^T
         int resulting_syndrome[CHECK];
         for(int i = 0; i < CHECK; i++){
@@ -53,15 +56,18 @@ void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_chec
             resulting_syndrome[i] = row_op;
         }
         int error_found = 1;
+
+        // ----------- DEBUG PRINT --------------
         for(int i = 0; i < CHECK; i++){
             printf("resulting syndrome %d \n",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-
+        
         if(error_found) {
             printf("error found on it %d \n",i);
             break;
         }
+        //------------------------------------------
     }
 }
 
@@ -228,7 +234,7 @@ int main() {
 
     compute_check_to_value(L, syndrome, rows, cols, Lj, alpha,10,pcm_matrix);
 
-    // Show Matrix L 
+   // ----------- DEBUG PRINT --------------
     printf("Matrix L:\n");
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -237,11 +243,7 @@ int main() {
         printf("\n");
     }
     printf("\n");
-
-    // Show corrected syndrome
-    //printf("Corrected Syndrome:");
-    //for(int j = 0; j < cols; j++) printf(" %d", syndrome[j]);
-    //printf("\n");
+    // -------------------------------------
     
     return 0;
 }
