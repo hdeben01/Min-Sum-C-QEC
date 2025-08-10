@@ -2,51 +2,61 @@
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
+#include <string.h>
 #include "compute_check_to_value_msg.h"
 
 
+void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES],
+                            int* syndrome, int size_checks, int size_vnode);
 
-void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode);
-void compute_col_operations(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode, float alpha, float Lj[VNODES], float sum[VNODES]);
+void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES], 
+                            int* syndrome, int size_checks, int size_vnode, float alpha, 
+                            float Lj[VNODES], float sum[VNODES]);
+
+void show_matrix(const float matrix[CHECK][VNODES], const int rows, const int cols);
 
 //size neigh > 0 y size_syn > 0
-//esta función dada una matriz L de mensajes calcula los mensajes que reciben los value nodes de los check nodes y por tanto equivalen al mensaje del "check node"
-void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode, float Lj[VNODES], float alpha, int num_it, int pcm_matrix[CHECK][VNODES]){
-    
+//esta función dada una matriz L de mensajes calcula los mensajes que reciben
+//los value nodes de los check nodes y por tanto equivalen al mensaje del "check node"
+void compute_check_to_value(float L[CHECK][VNODES], int pcm_matrix[CHECK][VNODES], 
+                            int* syndrome, int size_checks, int size_vnode, 
+                            float Lj[VNODES], float alpha, int num_it)
+{
+
     for(int i = 0; i < num_it; i++){
-        
+
+        printf("Iteration %d\n", i+1);
+
+            
         float sum[VNODES];
         int error[VNODES];
 
-        compute_row_operations(L, syndrome, size_checks, size_vnode);
-        printf("L matrix after row ops:\n");
-        for(int i = 0; i < CHECK; i++){
-            for(int j = 0; j < VNODES; j++){
-                printf("%f ", L[i][j]);
-            }
-            printf("\n");
-        }
+        compute_row_operations(L, pcm_matrix, syndrome, size_checks, size_vnode);
+        printf("\tL matrix after row ops:\n");
+        show_matrix(L, size_checks, size_vnode);
 
-        compute_col_operations(L, syndrome, size_checks, size_vnode, alpha, Lj,sum);
+        compute_col_operations(L, pcm_matrix, syndrome, size_checks, size_vnode, alpha, Lj, sum);
+        printf("\tL matrix after col ops:\n");
+        show_matrix(L, size_checks, size_vnode);
+
 
         // Correct syndrome from the values of the codeword
         // if >= 0 then bit j = 0
         // if < 0  then bit j = 1 
         for(int j = 0; j < VNODES; j++){
-
             if (sum[j] >= 0) error[j] = 0;
             else error[j] = 1;
         }
-        // ----------- DEBUG PRINT --------------
-        printf("error computed: ");
-        for(int j = 0; j < VNODES; j++){
 
+        // ----------- DEBUG PRINT --------------
+        printf("\tError computed: ");
+        for(int j = 0; j < VNODES; j++){
             printf("%d ",error[j]);
         }
         printf("\n");
-
         //------------------------------------------
-        //compute S = eH^T
+
+        // Compute S = eH^T
         int resulting_syndrome[CHECK];
         for(int i = 0; i < CHECK; i++){
             int row_op = 0;
@@ -58,20 +68,25 @@ void compute_check_to_value(float L[CHECK][VNODES], int* syndrome, int size_chec
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
+        printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            printf("resulting syndrome %d \n",resulting_syndrome[i]);
+            printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
+        printf("\n");
         
         if(error_found) {
-            printf("error found on it %d \n",i);
+            printf("\tERROR FOUND\n");
             break;
         }
+        else if (i == num_it - 1) printf("\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR\n");
         //------------------------------------------
     }
 }
 
-void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode){
+void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES], 
+                            int* syndrome, int size_checks, int size_vnode)
+{
 
     for(int i = 0; i < CHECK; i++){
         if(i == size_checks) break;
@@ -89,7 +104,7 @@ void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_chec
             float val = L[i][j];
             float abs_val = fabs(val);
 
-            if(val != 0.0f){
+            if(non_zero[i][j]){
                 if(abs_val < min1){
                     min2 = min1;
                     min1 = abs_val;
@@ -103,22 +118,17 @@ void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_chec
             row_sign = row_sign ^ (val >= 0 ? 0 : 1);
         }
 
-        if(min2 == FLT_MAX){
-            fprintf(stderr, "There's less than two 1's on the row %d", i);
-            exit(EXIT_FAILURE);
-        }
-
         // Apply the corresponding value and sign to out[][]
         for(int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
             float val = L[i][j];
 
-            if(val != 0.0f){
+            if(non_zero[i][j]){
                 // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
                 // and positive (1.0f) if its 1
                 float sign =  1.0f - 2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]);
-                
+
                 // Assign min2 to minpos when loop ends to save if statements
                 L[i][j] = sign * min1;
             } else{
@@ -128,10 +138,13 @@ void compute_row_operations(float L[CHECK][VNODES], int* syndrome, int size_chec
 
         // Assigning min2 to minpos
         L[i][minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
-    }    
+    }
 }
 
-void compute_col_operations(float L[CHECK][VNODES], int* syndrome, int size_checks, int size_vnode, float alpha, float Lj[CHECK], float sum[VNODES]){
+void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES],
+                            int* syndrome, int size_checks, int size_vnode, float alpha, 
+                            float Lj[CHECK], float sum[VNODES])
+{
     
     for (int j = 0; j < VNODES; j++){
         if (j == size_vnode) break;
@@ -153,12 +166,11 @@ void compute_col_operations(float L[CHECK][VNODES], int* syndrome, int size_chec
         for (int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
-            if(L[i][j] != 0) L[i][j] = sum[j] - (alpha * L[i][j]);
+            if(non_zero[i][j]) L[i][j] = sum[j] - (alpha * L[i][j]);
         }
     }
 
 }
-                            
 
 int main() {
     float L[CHECK][VNODES];
@@ -170,14 +182,14 @@ int main() {
         return 1;
     }
 
-    //read the probability p of the error model
+    // Read the probability p of the error model
     float p;
     if (fscanf(file, "%f", &p) != 1) {
             fprintf(stderr, "Error reading probability p\n");
             fclose(file);
             return 1;
     }
-    p = (1.0f -(2.0f/3.0f)*p);
+    p = (1.0f - (2.0f/3.0f) * p);
 
 
     // Read rows and cols
@@ -187,7 +199,7 @@ int main() {
         fclose(file);
         return 1;
     }
-    //
+
     // Read matrix L (initial beliefs)
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -206,8 +218,8 @@ int main() {
         }
     }
 
-    int syndrome[CHECK];
     // Read syndrome
+    int syndrome[CHECK];
     for (int j = 0; j < rows; j++) {
         if (fscanf(file, "%d", &syndrome[j]) != 1) {
             fprintf(stderr, "Error reading syndrome[%d]\n", j);
@@ -215,8 +227,10 @@ int main() {
             return 1;
         }
     }
+    printf("Initial Syndrome:");
+    for(int i = 0; i < CHECK; i++) printf(" %d", syndrome[i]);
+    printf("\n");
 
-  
     // Initialize Lj
     for (int i = 0; i < cols; i++) {
         Lj[i] = p;
@@ -229,21 +243,24 @@ int main() {
         fclose(file);
         return 1;
     }
+    printf("Alpha: %.2f\n", alpha);
 
-    float out[CHECK][VNODES];
+    int num_it = 10;
+    printf("Max Iterations: %d\n\n", num_it);
 
-    compute_check_to_value(L, syndrome, rows, cols, Lj, alpha,10,pcm_matrix);
+    compute_check_to_value(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
+    
+    return 0;
+}
 
-   // ----------- DEBUG PRINT --------------
-    printf("Matrix L:\n");
-    for (int i = 0; i < rows; i++) {
-        for (int j = 0; j < cols; j++) {
-            printf("%.6f ", L[i][j]);
+void show_matrix(const float matrix[CHECK][VNODES], const int rows, const int cols){
+    for(int i = 0; i < rows; i++){
+        printf("\t");
+        for(int j = 0; j < cols; j++){
+            if(!signbit(matrix[i][j])) printf("  %.6f", matrix[i][j]);
+            else printf(" %.6f", matrix[i][j]);
         }
         printf("\n");
     }
     printf("\n");
-    // -------------------------------------
-    
-    return 0;
 }
