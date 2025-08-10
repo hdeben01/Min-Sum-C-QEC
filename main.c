@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <float.h>
 #include <math.h>
-#include <string.h>
 #include "compute_check_to_value_msg.h"
 
 
@@ -13,31 +12,32 @@ void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
                             int* syndrome, int size_checks, int size_vnode, float alpha, 
                             float Lj[VNODES], float sum[VNODES]);
 
-void show_matrix(const float matrix[CHECK][VNODES], const int rows, const int cols);
+void show_matrix(const float matrix[CHECK][VNODES], const int non_zero[CHECK][VNODES],
+                 const int rows, const int cols);
 
 //size neigh > 0 y size_syn > 0
 //esta función dada una matriz L de mensajes calcula los mensajes que reciben
 //los value nodes de los check nodes y por tanto equivalen al mensaje del "check node"
-void compute_check_to_value(float L[CHECK][VNODES], int pcm_matrix[CHECK][VNODES], 
+void compute_check_to_value(float L[CHECK][VNODES], const int pcm_matrix[CHECK][VNODES], 
                             int* syndrome, int size_checks, int size_vnode, 
                             float Lj[VNODES], float alpha, int num_it)
 {
 
     for(int i = 0; i < num_it; i++){
 
-        printf("Iteration %d\n", i+1);
+        color_printf(CYAN, "Iteration %d\n", i+1);
 
-            
+
         float sum[VNODES];
         int error[VNODES];
 
         compute_row_operations(L, pcm_matrix, syndrome, size_checks, size_vnode);
         printf("\tL matrix after row ops:\n");
-        show_matrix(L, size_checks, size_vnode);
+        show_matrix(L, pcm_matrix, size_checks, size_vnode);
 
         compute_col_operations(L, pcm_matrix, syndrome, size_checks, size_vnode, alpha, Lj, sum);
         printf("\tL matrix after col ops:\n");
-        show_matrix(L, size_checks, size_vnode);
+        show_matrix(L, pcm_matrix, size_checks, size_vnode);
 
 
         // Correct syndrome from the values of the codeword
@@ -74,12 +74,14 @@ void compute_check_to_value(float L[CHECK][VNODES], int pcm_matrix[CHECK][VNODES
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
         printf("\n");
-        
+
         if(error_found) {
-            printf("\tERROR FOUND\n");
+            color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
-        else if (i == num_it - 1) printf("\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR\n");
+        else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
+
+        printf("\n");
         //------------------------------------------
     }
 }
@@ -90,7 +92,7 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
 
     for(int i = 0; i < CHECK; i++){
         if(i == size_checks) break;
-   
+
         float min1 = FLT_MAX, min2 = FLT_MAX;
         int minpos = -1;
         int sign_minpos = 0;
@@ -109,13 +111,13 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
                     min2 = min1;
                     min1 = abs_val;
                     minpos = j;
-                    sign_minpos = val >= 0 ? 0 : 1;
+                    sign_minpos = signbit(val);
                 }else if (abs_val < min2) {
                     min2 = abs_val;
                 }
             }
 
-            row_sign = row_sign ^ (val >= 0 ? 0 : 1);
+            row_sign = row_sign ^ signbit(val);
         }
 
         // Apply the corresponding value and sign to out[][]
@@ -127,12 +129,10 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
             if(non_zero[i][j]){
                 // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
                 // and positive (1.0f) if its 1
-                float sign =  1.0f - 2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]);
+                float sign =  1.0f - 2.0f * (row_sign ^ signbit(val) ^ syndrome[i]);
 
                 // Assign min2 to minpos when loop ends to save if statements
                 L[i][j] = sign * min1;
-            } else{
-                L[i][j] = 0.0f;
             }
         }
 
@@ -150,14 +150,14 @@ void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
         if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
-        float suma_aux = 0.0f;
+        float sum_aux = 0.0f;
         for(int i = 0; i < CHECK; i++){
             if (i == size_checks) break;
 
-            suma_aux += L[i][j];
+            sum_aux += L[i][j];
         }
 
-        sum[j] = Lj[j] + alpha * suma_aux;
+        sum[j] = Lj[j] + alpha * sum_aux;
     }
 
     for (int i = 0; i < CHECK; i++){
@@ -232,9 +232,10 @@ int main() {
     printf("\n");
 
     // Initialize Lj
-    for (int i = 0; i < cols; i++) {
-        Lj[i] = p;
+    for (int j = 0; j < cols; j++) {
+        Lj[j] = p;
     }
+    printf("Lj: %.2f\n", p);
 
     // Read alpha
     float alpha;
@@ -245,20 +246,31 @@ int main() {
     }
     printf("Alpha: %.2f\n", alpha);
 
-    int num_it = 10;
+    int num_it = 9;
     printf("Max Iterations: %d\n\n", num_it);
+
+    printf("Initial L Matrix:\n");
+    show_matrix(L, pcm_matrix, rows, cols);
 
     compute_check_to_value(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
     
     return 0;
 }
 
-void show_matrix(const float matrix[CHECK][VNODES], const int rows, const int cols){
+void show_matrix(const float matrix[CHECK][VNODES], const int non_zero[CHECK][VNODES],
+                 const int rows, const int cols)
+{
     for(int i = 0; i < rows; i++){
         printf("\t");
         for(int j = 0; j < cols; j++){
-            if(!signbit(matrix[i][j])) printf("  %.6f", matrix[i][j]);
-            else printf(" %.6f", matrix[i][j]);
+            if(signbit(matrix[i][j])) {
+                if (non_zero[i][j]) color_printf(YELLOW, " %.6f", matrix[i][j]);
+                else printf(" %.6f", matrix[i][j]);
+            }
+            else {
+                if (non_zero[i][j]) color_printf(YELLOW, "  %.6f", matrix[i][j]);
+                else printf("  %.6f", matrix[i][j]);
+            }
         }
         printf("\n");
     }
