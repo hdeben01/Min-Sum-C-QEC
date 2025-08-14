@@ -1,7 +1,7 @@
 #pragma once
 
 #ifndef VNODES
-#define VNODES 10
+#define VNODES 7
 #endif
 #ifndef CHECK 
 #define CHECK 3

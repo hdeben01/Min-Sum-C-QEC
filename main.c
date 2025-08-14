@@ -111,13 +111,13 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
                     min2 = min1;
                     min1 = abs_val;
                     minpos = j;
-                    sign_minpos = signbit(val);
+                    sign_minpos = (val >= 0 ? 0 : 1);
                 }else if (abs_val < min2) {
                     min2 = abs_val;
                 }
             }
 
-            row_sign = row_sign ^ signbit(val);
+            row_sign = row_sign ^ (val >= 0 ? 0 : 1);
         }
 
         // Apply the corresponding value and sign to out[][]
@@ -129,7 +129,7 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
             if(non_zero[i][j]){
                 // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
                 // and positive (1.0f) if its 1
-                float sign =  1.0f - 2.0f * (row_sign ^ signbit(val) ^ syndrome[i]);
+                float sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
 
                 // Assign min2 to minpos when loop ends to save if statements
                 L[i][j] = sign * min1;
@@ -157,7 +157,7 @@ void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
             sum_aux += L[i][j];
         }
 
-        sum[j] = Lj[j] + alpha * sum_aux;
+        sum[j] = Lj[j] + (alpha * sum_aux);
     }
 
     for (int i = 0; i < CHECK; i++){
@@ -176,7 +176,7 @@ int main() {
     float L[CHECK][VNODES];
     int pcm_matrix[CHECK][VNODES];
     float Lj[VNODES];
-    FILE *file = fopen("input2.txt","r");
+    FILE *file = fopen("input3.txt","r");
     if (file == NULL){
         perror("Error opening file");
         return 1;
@@ -246,7 +246,12 @@ int main() {
     }
     printf("Alpha: %.2f\n", alpha);
 
-    int num_it = 9;
+    int num_it = 10;
+    if (fscanf(file, "%d", &num_it) != 1) {
+        fprintf(stderr, "Error reading alpha\n");
+        fclose(file);
+        return 1;
+    }
     printf("Max Iterations: %d\n\n", num_it);
 
     printf("Initial L Matrix:\n");
