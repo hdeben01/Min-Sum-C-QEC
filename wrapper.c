@@ -16674,9 +16674,9 @@ static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *__
   return __pyx_r;
 }
 
-/* "wrapper.pyx":11
+/* "wrapper.pyx":34
  * 
- * 
+ * #in order to use the wrapper is necessary to flatten the matrices first
  * def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it):             # <<<<<<<<<<<<<<
  *     if not L.flags.c_contiguous:
  *         L = np.ascontiguousarray(L)
@@ -16728,68 +16728,68 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_L,&__pyx_mstate_global->__pyx_n_u_non_zero,&__pyx_mstate_global->__pyx_n_u_syndrome,&__pyx_mstate_global->__pyx_n_u_size_checks,&__pyx_mstate_global->__pyx_n_u_size_vnodes,&__pyx_mstate_global->__pyx_n_u_priors,&__pyx_mstate_global->__pyx_n_u_alpha,&__pyx_mstate_global->__pyx_n_u_num_it,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 11, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 34, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  8:
         values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  7:
         values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  6:
         values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  5:
         values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  4:
         values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  3:
         values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  2:
         values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 11, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 34, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "compute_min_sum_wrapper", 0) < 0) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "compute_min_sum_wrapper", 0) < 0) __PYX_ERR(0, 34, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 8; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("compute_min_sum_wrapper", 1, 8, 8, i); __PYX_ERR(0, 11, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("compute_min_sum_wrapper", 1, 8, 8, i); __PYX_ERR(0, 34, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 8)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[1] = __Pyx_ArgRef_FASTCALL(__pyx_args, 1);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[1])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[2] = __Pyx_ArgRef_FASTCALL(__pyx_args, 2);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[2])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[3] = __Pyx_ArgRef_FASTCALL(__pyx_args, 3);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[3])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[4] = __Pyx_ArgRef_FASTCALL(__pyx_args, 4);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[4])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[5] = __Pyx_ArgRef_FASTCALL(__pyx_args, 5);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[5])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[6] = __Pyx_ArgRef_FASTCALL(__pyx_args, 6);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[6])) __PYX_ERR(0, 34, __pyx_L3_error)
       values[7] = __Pyx_ArgRef_FASTCALL(__pyx_args, 7);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 11, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[7])) __PYX_ERR(0, 34, __pyx_L3_error)
     }
     __pyx_v_L = values[0];
     __pyx_v_non_zero = values[1];
@@ -16802,7 +16802,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("compute_min_sum_wrapper", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 11, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("compute_min_sum_wrapper", 1, 8, 8, __pyx_nargs); __PYX_ERR(0, 34, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -16854,24 +16854,24 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   __Pyx_INCREF(__pyx_v_L);
   __Pyx_INCREF(__pyx_v_non_zero);
 
-  /* "wrapper.pyx":12
- * 
+  /* "wrapper.pyx":35
+ * #in order to use the wrapper is necessary to flatten the matrices first
  * def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it):
  *     if not L.flags.c_contiguous:             # <<<<<<<<<<<<<<
  *         L = np.ascontiguousarray(L)
  *     if not non_zero.flags.c_contiguous:
 */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_L, __pyx_mstate_global->__pyx_n_u_flags); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_L, __pyx_mstate_global->__pyx_n_u_flags); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_mstate_global->__pyx_n_u_c_contiguous); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_mstate_global->__pyx_n_u_c_contiguous); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 12, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_4 = (!__pyx_t_3);
   if (__pyx_t_4) {
 
-    /* "wrapper.pyx":13
+    /* "wrapper.pyx":36
  * def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it):
  *     if not L.flags.c_contiguous:
  *         L = np.ascontiguousarray(L)             # <<<<<<<<<<<<<<
@@ -16879,9 +16879,9 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
  *         non_zero = np.ascontiguousarray(non_zero)
 */
     __pyx_t_1 = NULL;
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 13, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 13, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 36, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_7 = 1;
@@ -16901,14 +16901,14 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
       __pyx_t_2 = __Pyx_PyObject_FastCall(__pyx_t_6, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
+      if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_2);
     }
     __Pyx_DECREF_SET(__pyx_v_L, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "wrapper.pyx":12
- * 
+    /* "wrapper.pyx":35
+ * #in order to use the wrapper is necessary to flatten the matrices first
  * def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it):
  *     if not L.flags.c_contiguous:             # <<<<<<<<<<<<<<
  *         L = np.ascontiguousarray(L)
@@ -16916,24 +16916,24 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
 */
   }
 
-  /* "wrapper.pyx":14
+  /* "wrapper.pyx":37
  *     if not L.flags.c_contiguous:
  *         L = np.ascontiguousarray(L)
  *     if not non_zero.flags.c_contiguous:             # <<<<<<<<<<<<<<
  *         non_zero = np.ascontiguousarray(non_zero)
  * 
 */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_non_zero, __pyx_mstate_global->__pyx_n_u_flags); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_non_zero, __pyx_mstate_global->__pyx_n_u_flags); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_c_contiguous); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_mstate_global->__pyx_n_u_c_contiguous); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely((__pyx_t_4 < 0))) __PYX_ERR(0, 37, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_3 = (!__pyx_t_4);
   if (__pyx_t_3) {
 
-    /* "wrapper.pyx":15
+    /* "wrapper.pyx":38
  *         L = np.ascontiguousarray(L)
  *     if not non_zero.flags.c_contiguous:
  *         non_zero = np.ascontiguousarray(non_zero)             # <<<<<<<<<<<<<<
@@ -16941,9 +16941,9 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
  *     #create memoryviews so we can pass numpy array pointers to C function
 */
     __pyx_t_2 = NULL;
-    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_mstate_global->__pyx_n_u_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 15, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_mstate_global->__pyx_n_u_ascontiguousarray); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 38, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_7 = 1;
@@ -16963,13 +16963,13 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
       __pyx_t_6 = __Pyx_PyObject_FastCall(__pyx_t_5, __pyx_callargs+__pyx_t_7, (2-__pyx_t_7) | (__pyx_t_7*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
       __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 15, __pyx_L1_error)
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 38, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
     }
     __Pyx_DECREF_SET(__pyx_v_non_zero, __pyx_t_6);
     __pyx_t_6 = 0;
 
-    /* "wrapper.pyx":14
+    /* "wrapper.pyx":37
  *     if not L.flags.c_contiguous:
  *         L = np.ascontiguousarray(L)
  *     if not non_zero.flags.c_contiguous:             # <<<<<<<<<<<<<<
@@ -16978,55 +16978,55 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
 */
   }
 
-  /* "wrapper.pyx":18
+  /* "wrapper.pyx":41
  * 
  *     #create memoryviews so we can pass numpy array pointers to C function
  *     cdef float[::1] L_array = L             # <<<<<<<<<<<<<<
  *     cdef int[::1] non_zero_array = non_zero
  *     cdef int[::1] syndrome_array = syndrome
 */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_L, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 18, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_L, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 41, __pyx_L1_error)
   __pyx_v_L_array = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "wrapper.pyx":19
+  /* "wrapper.pyx":42
  *     #create memoryviews so we can pass numpy array pointers to C function
  *     cdef float[::1] L_array = L
  *     cdef int[::1] non_zero_array = non_zero             # <<<<<<<<<<<<<<
  *     cdef int[::1] syndrome_array = syndrome
  *     cdef float[::1] priors_array = priors
 */
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_non_zero, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_non_zero, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_v_non_zero_array = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "wrapper.pyx":20
+  /* "wrapper.pyx":43
  *     cdef float[::1] L_array = L
  *     cdef int[::1] non_zero_array = non_zero
  *     cdef int[::1] syndrome_array = syndrome             # <<<<<<<<<<<<<<
  *     cdef float[::1] priors_array = priors
  * 
 */
-  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_syndrome, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 20, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_syndrome, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 43, __pyx_L1_error)
   __pyx_v_syndrome_array = __pyx_t_9;
   __pyx_t_9.memview = NULL;
   __pyx_t_9.data = NULL;
 
-  /* "wrapper.pyx":21
+  /* "wrapper.pyx":44
  *     cdef int[::1] non_zero_array = non_zero
  *     cdef int[::1] syndrome_array = syndrome
  *     cdef float[::1] priors_array = priors             # <<<<<<<<<<<<<<
  * 
  * 
 */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_priors, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_priors, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_v_priors_array = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
-  /* "wrapper.pyx":24
+  /* "wrapper.pyx":47
  * 
  * 
  *     min_sum(&L_array[0], &non_zero_array[0],&syndrome_array[0], size_checks, size_vnodes, &priors_array[0],alpha,num_it)             # <<<<<<<<<<<<<<
@@ -17040,7 +17040,7 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   } else if (unlikely(__pyx_t_10 >= __pyx_v_L_array.shape[0])) __pyx_t_11 = 0;
   if (unlikely(__pyx_t_11 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_11);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
   __pyx_t_12 = 0;
   __pyx_t_11 = -1;
@@ -17050,7 +17050,7 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   } else if (unlikely(__pyx_t_12 >= __pyx_v_non_zero_array.shape[0])) __pyx_t_11 = 0;
   if (unlikely(__pyx_t_11 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_11);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
   __pyx_t_13 = 0;
   __pyx_t_11 = -1;
@@ -17060,10 +17060,10 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   } else if (unlikely(__pyx_t_13 >= __pyx_v_syndrome_array.shape[0])) __pyx_t_11 = 0;
   if (unlikely(__pyx_t_11 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_11);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
-  __pyx_t_11 = __Pyx_PyLong_As_int(__pyx_v_size_checks); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
-  __pyx_t_14 = __Pyx_PyLong_As_int(__pyx_v_size_vnodes); if (unlikely((__pyx_t_14 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyLong_As_int(__pyx_v_size_checks); if (unlikely((__pyx_t_11 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_14 = __Pyx_PyLong_As_int(__pyx_v_size_vnodes); if (unlikely((__pyx_t_14 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
   __pyx_t_15 = 0;
   __pyx_t_16 = -1;
   if (__pyx_t_15 < 0) {
@@ -17072,27 +17072,27 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   } else if (unlikely(__pyx_t_15 >= __pyx_v_priors_array.shape[0])) __pyx_t_16 = 0;
   if (unlikely(__pyx_t_16 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_16);
-    __PYX_ERR(0, 24, __pyx_L1_error)
+    __PYX_ERR(0, 47, __pyx_L1_error)
   }
-  __pyx_t_17 = __Pyx_PyFloat_AsFloat(__pyx_v_alpha); if (unlikely((__pyx_t_17 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
-  __pyx_t_16 = __Pyx_PyLong_As_int(__pyx_v_num_it); if (unlikely((__pyx_t_16 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 24, __pyx_L1_error)
+  __pyx_t_17 = __Pyx_PyFloat_AsFloat(__pyx_v_alpha); if (unlikely((__pyx_t_17 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
+  __pyx_t_16 = __Pyx_PyLong_As_int(__pyx_v_num_it); if (unlikely((__pyx_t_16 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 47, __pyx_L1_error)
   min_sum((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_L_array.data) + __pyx_t_10)) )))), (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_non_zero_array.data) + __pyx_t_12)) )))), (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_syndrome_array.data) + __pyx_t_13)) )))), __pyx_t_11, __pyx_t_14, (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_priors_array.data) + __pyx_t_15)) )))), __pyx_t_17, __pyx_t_16);
 
-  /* "wrapper.pyx":25
+  /* "wrapper.pyx":48
  * 
  *     min_sum(&L_array[0], &non_zero_array[0],&syndrome_array[0], size_checks, size_vnodes, &priors_array[0],alpha,num_it)
  *     return L_array             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_L_array, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 25, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_L_array, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_r = __pyx_t_6;
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "wrapper.pyx":11
+  /* "wrapper.pyx":34
  * 
- * 
+ * #in order to use the wrapper is necessary to flatten the matrices first
  * def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it):             # <<<<<<<<<<<<<<
  *     if not L.flags.c_contiguous:
  *         L = np.ascontiguousarray(L)
@@ -19041,33 +19041,34 @@ __Pyx_RefNannySetupContext("PyInit_wrapper", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_pyx_unpickle_Enum, __pyx_t_5) < 0) __PYX_ERR(1, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wrapper.pyx":2
+  /* "wrapper.pyx":25
+ * #   - The function assumes that the input arrays are properly shaped and typed.
  * from cython.view cimport array as cvarray
  * import numpy as np             # <<<<<<<<<<<<<<
  * #we define the header for the C function we want to call, it has to match the C function signature
  * cdef extern from "min_sum.h":
 */
-  __pyx_t_5 = __Pyx_ImportDottedModule(__pyx_mstate_global->__pyx_n_u_numpy, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_ImportDottedModule(__pyx_mstate_global->__pyx_n_u_numpy, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_5) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_np, __pyx_t_5) < 0) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wrapper.pyx":11
+  /* "wrapper.pyx":34
  * 
- * 
+ * #in order to use the wrapper is necessary to flatten the matrices first
  * def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it):             # <<<<<<<<<<<<<<
  *     if not L.flags.c_contiguous:
  *         L = np.ascontiguousarray(L)
 */
-  __pyx_t_5 = __Pyx_CyFunction_New(&__pyx_mdef_7wrapper_1compute_min_sum_wrapper, 0, __pyx_mstate_global->__pyx_n_u_compute_min_sum_wrapper, NULL, __pyx_mstate_global->__pyx_n_u_wrapper, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_New(&__pyx_mdef_7wrapper_1compute_min_sum_wrapper, 0, __pyx_mstate_global->__pyx_n_u_compute_min_sum_wrapper, NULL, __pyx_mstate_global->__pyx_n_u_wrapper, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_compute_min_sum_wrapper, __pyx_t_5) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_compute_min_sum_wrapper, __pyx_t_5) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "wrapper.pyx":1
- * from cython.view cimport array as cvarray             # <<<<<<<<<<<<<<
- * import numpy as np
- * #we define the header for the C function we want to call, it has to match the C function signature
+ * # cython: language_level=3             # <<<<<<<<<<<<<<
+ * #
+ * # This Cython wrapper provides an interface to the C function `min_sum` defined in "min_sum.h".
 */
   __pyx_t_5 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -19367,7 +19368,7 @@ static int __Pyx_InitConstants(__pyx_mstatetype *__pyx_mstate) {
             unsigned int num_kwonly_args : 1;
             unsigned int nlocals : 4;
             unsigned int flags : 10;
-            unsigned int first_line : 4;
+            unsigned int first_line : 6;
             unsigned int line_table_length : 12;
         } __Pyx_PyCode_New_function_description;
 /* NewCodeObj.proto */
@@ -19385,7 +19386,7 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   PyObject* tuple_dedup_map = PyDict_New();
   if (unlikely(!tuple_dedup_map)) return -1;
   {
-    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 12, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 11, 128};
+    const __Pyx_PyCode_New_function_description descr = {8, 0, 0, 12, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 34, 128};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_L, __pyx_mstate->__pyx_n_u_non_zero, __pyx_mstate->__pyx_n_u_syndrome, __pyx_mstate->__pyx_n_u_size_checks, __pyx_mstate->__pyx_n_u_size_vnodes, __pyx_mstate->__pyx_n_u_priors, __pyx_mstate->__pyx_n_u_alpha, __pyx_mstate->__pyx_n_u_num_it, __pyx_mstate->__pyx_n_u_L_array, __pyx_mstate->__pyx_n_u_non_zero_array, __pyx_mstate->__pyx_n_u_syndrome_array, __pyx_mstate->__pyx_n_u_priors_array};
     __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_wrapper_pyx, __pyx_mstate->__pyx_n_u_compute_min_sum_wrapper, __pyx_k_t1F_B_t86_2_q_a_1_1_1_1AWAT_A_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
