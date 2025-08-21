@@ -2,7 +2,7 @@
 
 
 
-void min_sum(float L[CHECK][VNODES], const int pcm_matrix[CHECK][VNODES], 
+void min_sum(float *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
                             float Lj[VNODES], float alpha, int num_it)
 {
@@ -45,7 +45,7 @@ void min_sum(float L[CHECK][VNODES], const int pcm_matrix[CHECK][VNODES],
         for(int i = 0; i < CHECK; i++){
             int row_op = 0;
             for(int j = 0; j < VNODES; j++){
-                row_op ^= (error[j] & pcm_matrix[i][j]);
+                row_op ^= (error[j] & pcm_matrix[i * VNODES + j]);
             }
             resulting_syndrome[i] = row_op;
         }
@@ -70,7 +70,7 @@ void min_sum(float L[CHECK][VNODES], const int pcm_matrix[CHECK][VNODES],
     }
 }
 
-void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES], 
+void compute_row_operations(float *L,  int *non_zero, 
                             int* syndrome, int size_checks, int size_vnode)
 {
 
@@ -87,10 +87,10 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
         for(int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
-            float val = L[i][j];
+            float val = L[i * VNODES + j];
             float abs_val = fabs(val);
 
-            if(non_zero[i][j]){
+            if(non_zero[i * VNODES + j]){
                 if(abs_val < min1){
                     min2 = min1;
                     min1 = abs_val;
@@ -108,24 +108,24 @@ void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
         for(int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
-            float val = L[i][j];
+            float val = L[i * VNODES + j];
 
-            if(non_zero[i][j]){
+            if(non_zero[i * VNODES + j]){
                 // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
                 // and positive (1.0f) if its 1
                 float sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
 
                 // Assign min2 to minpos when loop ends to save if statements
-                L[i][j] = sign * min1;
+                L[i * VNODES + j] = sign * min1;
             }
         }
 
         // Assigning min2 to minpos
-        L[i][minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
+        L[i * VNODES + minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
     }
 }
 
-void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES],
+void compute_col_operations(float *L,  int *non_zero,
                             int* syndrome, int size_checks, int size_vnode, float alpha, 
                             float Lj[CHECK], float sum[VNODES])
 {
@@ -138,7 +138,7 @@ void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
         for(int i = 0; i < CHECK; i++){
             if (i == size_checks) break;
 
-            sum_aux += L[i][j];
+            sum_aux += L[i * VNODES + j];
         }
 
         sum[j] = Lj[j] + (alpha * sum_aux);
@@ -150,15 +150,17 @@ void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VN
         for (int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
-            if(non_zero[i][j]) L[i][j] = sum[j] - (alpha * L[i][j]);
+            if(non_zero[i * VNODES + j]) L[i * VNODES + j] = sum[j] - (alpha * L[i * VNODES + j]);
         }
     }
 
 }
 
 int main() {
-    float L[CHECK][VNODES];
-    int pcm_matrix[CHECK][VNODES];
+    float *L;//[CHECK][VNODES];
+    L = (float*)malloc(CHECK*VNODES*sizeof(float));
+    int *pcm_matrix;//[CHECK][VNODES];
+    pcm_matrix = (int*)malloc(CHECK*VNODES*sizeof(int));
     float Lj[VNODES];
     FILE *file = fopen("input3.txt","r");
     if (file == NULL){
@@ -193,11 +195,11 @@ int main() {
                 fclose(file);
                 return 1;
             }
-            pcm_matrix[i][j] = value;
+            pcm_matrix[i * VNODES + j] = value;
             if(value == 1){
-                L[i][j] = p;
+                L[i * VNODES + j] = p;
             }else{
-                L[i][j] = 0;
+                L[i * VNODES + j] = 0;
             }
         }
     }
@@ -246,19 +248,19 @@ int main() {
     return 0;
 }
 
-void show_matrix(const float matrix[CHECK][VNODES], const int non_zero[CHECK][VNODES],
-                 const int rows, const int cols)
+void show_matrix( float *matrix, int *non_zero,
+                  int rows,  int cols)
 {
     for(int i = 0; i < rows; i++){
         printf("\t");
         for(int j = 0; j < cols; j++){
-            if(signbit(matrix[i][j])) {
-                if (non_zero[i][j]) color_printf(YELLOW, " %.6f", matrix[i][j]);
-                else printf(" %.6f", matrix[i][j]);
+            if(signbit(matrix[i * VNODES + j])) {
+                if (non_zero[i * VNODES + j]) color_printf(YELLOW, " %.6f", matrix[i * VNODES + j]);
+                else printf(" %.6f", matrix[i * VNODES + j]);
             }
             else {
-                if (non_zero[i][j]) color_printf(YELLOW, "  %.6f", matrix[i][j]);
-                else printf("  %.6f", matrix[i][j]);
+                if (non_zero[i * VNODES + j]) color_printf(YELLOW, "  %.6f", matrix[i * VNODES + j]);
+                else printf("  %.6f", matrix[i * VNODES + j]);
             }
         }
         printf("\n");
