@@ -1,24 +1,8 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <float.h>
-#include <math.h>
-#include "compute_check_to_value_msg.h"
+#include "min_sum.h"
 
 
-void compute_row_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES],
-                            int* syndrome, int size_checks, int size_vnode);
 
-void compute_col_operations(float L[CHECK][VNODES], const int non_zero[CHECK][VNODES], 
-                            int* syndrome, int size_checks, int size_vnode, float alpha, 
-                            float Lj[VNODES], float sum[VNODES]);
-
-void show_matrix(const float matrix[CHECK][VNODES], const int non_zero[CHECK][VNODES],
-                 const int rows, const int cols);
-
-//size neigh > 0 y size_syn > 0
-//esta función dada una matriz L de mensajes calcula los mensajes que reciben
-//los value nodes de los check nodes y por tanto equivalen al mensaje del "check node"
-void compute_check_to_value(float L[CHECK][VNODES], const int pcm_matrix[CHECK][VNODES], 
+void min_sum(float L[CHECK][VNODES], const int pcm_matrix[CHECK][VNODES], 
                             int* syndrome, int size_checks, int size_vnode, 
                             float Lj[VNODES], float alpha, int num_it)
 {
@@ -257,7 +241,7 @@ int main() {
     printf("Initial L Matrix:\n");
     show_matrix(L, pcm_matrix, rows, cols);
 
-    compute_check_to_value(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
+    min_sum(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
     
     return 0;
 }
