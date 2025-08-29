@@ -1,10 +1,10 @@
 #pragma once
 
 #ifndef VNODES
-#define VNODES 7
+#define VNODES 882
 #endif
 #ifndef CHECK 
-#define CHECK 3
+#define CHECK 441
 #endif
 
 #ifndef COLORS_H
@@ -48,4 +48,4 @@ void show_matrix( float *matrix, int *non_zero,
 
 void min_sum(float *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
-                            float Lj[VNODES], float alpha, int num_it);
+                            float Lj[VNODES], float alpha, int num_it, int *error_computed);

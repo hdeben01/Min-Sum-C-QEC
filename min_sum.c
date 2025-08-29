@@ -4,40 +4,40 @@
 
 void min_sum(float *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
-                            float Lj[VNODES], float alpha, int num_it)
+                            float Lj[VNODES], float alpha, int num_it, int *error_computed)
 {
 
     for(int i = 0; i < num_it; i++){
 
-        color_printf(CYAN, "Iteration %d\n", i+1);
+        //color_printf(CYAN, "Iteration %d\n", i+1);
 
 
         float sum[VNODES];
-        int error[VNODES];
+        //int error[VNODES];
 
         compute_row_operations(L, pcm_matrix, syndrome, size_checks, size_vnode);
-        printf("\tL matrix after row ops:\n");
-        show_matrix(L, pcm_matrix, size_checks, size_vnode);
+        //printf("\tL matrix after row ops:\n");
+        //show_matrix(L, pcm_matrix, size_checks, size_vnode);
 
         compute_col_operations(L, pcm_matrix, syndrome, size_checks, size_vnode, alpha, Lj, sum);
-        printf("\tL matrix after col ops:\n");
-        show_matrix(L, pcm_matrix, size_checks, size_vnode);
+        //printf("\tL matrix after col ops:\n");
+        //show_matrix(L, pcm_matrix, size_checks, size_vnode);
 
 
         // Correct syndrome from the values of the codeword
         // if >= 0 then bit j = 0
         // if < 0  then bit j = 1 
         for(int j = 0; j < VNODES; j++){
-            if (sum[j] >= 0) error[j] = 0;
-            else error[j] = 1;
+            if (sum[j] >= 0) error_computed[j] = 0;
+            else error_computed[j] = 1;
         }
 
         // ----------- DEBUG PRINT --------------
-        printf("\tError computed: ");
+        //printf("\tError computed: ");
         for(int j = 0; j < VNODES; j++){
-            printf("%d ",error[j]);
+            //printf("%d ",error_computed[j]);
         }
-        printf("\n");
+        //printf("\n");
         //------------------------------------------
 
         // Compute S = eH^T
@@ -45,27 +45,27 @@ void min_sum(float *L,  int *pcm_matrix,
         for(int i = 0; i < CHECK; i++){
             int row_op = 0;
             for(int j = 0; j < VNODES; j++){
-                row_op ^= (error[j] & pcm_matrix[i * VNODES + j]);
+                row_op ^= (error_computed[j] & pcm_matrix[i * VNODES + j]);
             }
             resulting_syndrome[i] = row_op;
         }
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
-        printf("\tResulting syndrome: ");
+        //printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            printf("%d ",resulting_syndrome[i]);
+            //printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-        printf("\n");
+        //printf("\n");
 
         if(error_found) {
-            color_printf(GREEN, "\tERROR FOUND\n");
+            //color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
         else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
-        printf("\n");
+        //printf("\n");
         //------------------------------------------
     }
 }
@@ -156,7 +156,7 @@ void compute_col_operations(float *L,  int *non_zero,
 
 }
 
-int main() {
+/*int main() {
     float *L;//[CHECK][VNODES];
     L = (float*)malloc(CHECK*VNODES*sizeof(float));
     int *pcm_matrix;//[CHECK][VNODES];
@@ -246,7 +246,7 @@ int main() {
     min_sum(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
     
     return 0;
-}
+}*/
 
 void show_matrix( float *matrix, int *non_zero,
                   int rows,  int cols)
