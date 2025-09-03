@@ -50,16 +50,16 @@ def main():
             num_it = 100
 
             # formatting imputs correctly for the c function, L_flat and Lj use float(32 bits) and pcm and syndrome int_32
-            L_flat = pcm.astype(np.float32).copy()
+            L_flat = pcm.astype(np.double).copy()
             L_flat = np.ascontiguousarray(L_flat)
             pcm = np.ascontiguousarray(pcm.astype(np.int32))
             syndrome = np.ascontiguousarray(syndrome.astype(np.int32))
-            Lj = np.ascontiguousarray(Lj.astype(np.float32))
+            Lj = np.ascontiguousarray(Lj.astype(np.double))
             error_computed = np.zeros(cols,dtype=np.int32)
 
 
             # Llamar a la función de Cython con vectores aplanados
-            L_array = compute_min_sum_wrapper(L_flat, pcm.astype(np.int32), syndrome.astype(np.int32), rows, cols, Lj.astype(np.float32), alpha, num_it, error_computed)
+            L_array = compute_min_sum_wrapper(L_flat, pcm.astype(np.int32), syndrome.astype(np.int32), rows, cols, Lj.astype(np.double), alpha, num_it, error_computed)
             logical_error = (error + error_computed) %2
             if np.any(logical_error == 1):
                 logical_errors += 1

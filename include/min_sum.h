@@ -1,10 +1,10 @@
 #pragma once
 
 #ifndef VNODES
-#define VNODES 882
+#define VNODES 2232
 #endif
 #ifndef CHECK 
-#define CHECK 441
+#define CHECK 252
 #endif
 
 #ifndef COLORS_H
@@ -36,16 +36,16 @@ static inline void color_printf( char *color,  char *format, ...) {
 
 #endif // COLORS_H
 
-void compute_row_operations(float *L,  int *non_zero,
+void compute_row_operations(double *L,  int *non_zero,
                             int* syndrome, int size_checks, int size_vnode);
 
-void compute_col_operations(float *L,  int *non_zero, 
-                            int* syndrome, int size_checks, int size_vnode, float alpha, 
-                            float Lj[VNODES], float sum[VNODES]);
+void compute_col_operations(double *L,  int *non_zero, 
+                            int* syndrome, int size_checks, int size_vnode, double alpha, 
+                            double Lj[VNODES], double sum[VNODES]);
 
-void show_matrix( float *matrix, int *non_zero,
+void show_matrix( double *matrix, int *non_zero,
                   int rows,  int cols);
 
-void min_sum(float *L,  int *pcm_matrix, 
+void min_sum(double *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
-                            float Lj[VNODES], float alpha, int num_it, int *error_computed);
+                            double Lj[VNODES], double alpha, int num_it, int *error_computed);

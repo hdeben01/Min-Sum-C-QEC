@@ -2591,14 +2591,14 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
-static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_float(PyObject *, int writable_flag);
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *, int writable_flag);
 
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_int(PyObject *, int writable_flag);
 
 /* MemviewDtypeToObject.proto */
-static CYTHON_INLINE PyObject *__pyx_memview_get_float(const char *itemp);
-static CYTHON_INLINE int __pyx_memview_set_float(const char *itemp, PyObject *obj);
+static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj);
 
 /* MemviewDtypeToObject.proto */
 static CYTHON_INLINE PyObject *__pyx_memview_get_int(const char *itemp);
@@ -2799,7 +2799,7 @@ static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
 static PyObject *__pyx_unpickle_Enum__set_state(struct __pyx_MemviewEnum_obj *, PyObject *); /*proto*/
 /* #### Code section: typeinfo ### */
-static const __Pyx_TypeInfo __Pyx_TypeInfo_float = { "float", NULL, sizeof(float), { 0 }, 0, 'R', 0, 0 };
+static const __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
 static const __Pyx_TypeInfo __Pyx_TypeInfo_int = { "int", NULL, sizeof(int), { 0 }, 0, __PYX_IS_UNSIGNED(int) ? 'U' : 'I', __PYX_IS_UNSIGNED(int), 0 };
 /* #### Code section: before_global_var ### */
 #define __Pyx_MODULE_NAME "wrapper"
@@ -2942,7 +2942,7 @@ static const char __pyx_k_Step_may_not_be_zero_axis_d[] = "Step may not be zero 
 static const char __pyx_k_itemsize_0_for_cython_array[] = "itemsize <= 0 for cython.array";
 static const char __pyx_k_unable_to_allocate_array_data[] = "unable to allocate array data.";
 static const char __pyx_k_strided_and_direct_or_indirect[] = "<strided and direct or indirect>";
-static const char __pyx_k_t1F_B_t86_2_q_a_1_1_1_1AWAT_A_1[] = "\200\001\330\004\007\200t\2101\210F\220!\330\010\014\210B\320\016 \240\001\240\021\330\004\007\200t\2108\2206\230\021\330\010\023\2202\320\025'\240q\250\001\360\006\000\005\037\230a\330\004#\2401\330\004#\2401\330\004#\2401\330\004)\250\021\360\006\000\005\014\2101\210A\210W\220A\220T\230\021\230.\250\001\250\023\250A\250^\2701\270D\300\r\310]\320Z[\320[g\320gh\320hk\320kq\320qy\320yz\360\000\000{\001O\002\360\000\000O\002P\002\360\000\000P\002Q\002\330\004\013\2109\220A";
+static const char __pyx_k_t1F_B_t86_2_q_q_1_1_A_1AWAT_A_1[] = "\200\001\330\004\007\200t\2101\210F\220!\330\010\014\210B\320\016 \240\001\240\021\330\004\007\200t\2108\2206\230\021\330\010\023\2202\320\025'\240q\250\001\360\006\000\005 \230q\330\004#\2401\330\004#\2401\330\004$\240A\330\004)\250\021\360\006\000\005\014\2101\210A\210W\220A\220T\230\021\230.\250\001\250\023\250A\250^\2701\270D\300\r\310]\320Z[\320[g\320gh\320hk\320kq\320qy\320yz\360\000\000{\001O\002\360\000\000O\002P\002\360\000\000P\002Q\002\330\004\013\2109\220A";
 static const char __pyx_k_All_dimensions_preceding_dimensi[] = "All dimensions preceding dimension %d must be indexed and not sliced";
 static const char __pyx_k_Buffer_view_does_not_expose_stri[] = "Buffer view does not expose strides";
 static const char __pyx_k_Can_only_create_a_buffer_that_is[] = "Can only create a buffer that is contiguous in memory.";
@@ -16863,7 +16863,7 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   int __pyx_t_14;
   Py_ssize_t __pyx_t_15;
   int __pyx_t_16;
-  float __pyx_t_17;
+  double __pyx_t_17;
   Py_ssize_t __pyx_t_18;
   int __pyx_t_19;
   int __pyx_lineno = 0;
@@ -17000,21 +17000,21 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   /* "wrapper.pyx":41
  * 
  *     #create memoryviews so we can pass numpy array pointers to C function
- *     cdef float[::1] L_array = L             # <<<<<<<<<<<<<<
+ *     cdef double[::1] L_array = L             # <<<<<<<<<<<<<<
  *     cdef int[::1] non_zero_array = non_zero
  *     cdef int[::1] syndrome_array = syndrome
 */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_L, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_L, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 41, __pyx_L1_error)
   __pyx_v_L_array = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
   /* "wrapper.pyx":42
  *     #create memoryviews so we can pass numpy array pointers to C function
- *     cdef float[::1] L_array = L
+ *     cdef double[::1] L_array = L
  *     cdef int[::1] non_zero_array = non_zero             # <<<<<<<<<<<<<<
  *     cdef int[::1] syndrome_array = syndrome
- *     cdef float[::1] priors_array = priors
+ *     cdef double[::1] priors_array = priors
 */
   __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_non_zero, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 42, __pyx_L1_error)
   __pyx_v_non_zero_array = __pyx_t_9;
@@ -17022,10 +17022,10 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   __pyx_t_9.data = NULL;
 
   /* "wrapper.pyx":43
- *     cdef float[::1] L_array = L
+ *     cdef double[::1] L_array = L
  *     cdef int[::1] non_zero_array = non_zero
  *     cdef int[::1] syndrome_array = syndrome             # <<<<<<<<<<<<<<
- *     cdef float[::1] priors_array = priors
+ *     cdef double[::1] priors_array = priors
  *     cdef int[::1] error_computed_array = error_computed
 */
   __pyx_t_9 = __Pyx_PyObject_to_MemoryviewSlice_dc_int(__pyx_v_syndrome, PyBUF_WRITABLE); if (unlikely(!__pyx_t_9.memview)) __PYX_ERR(0, 43, __pyx_L1_error)
@@ -17036,18 +17036,18 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
   /* "wrapper.pyx":44
  *     cdef int[::1] non_zero_array = non_zero
  *     cdef int[::1] syndrome_array = syndrome
- *     cdef float[::1] priors_array = priors             # <<<<<<<<<<<<<<
+ *     cdef double[::1] priors_array = priors             # <<<<<<<<<<<<<<
  *     cdef int[::1] error_computed_array = error_computed
  * 
 */
-  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_float(__pyx_v_priors, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_priors, PyBUF_WRITABLE); if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(0, 44, __pyx_L1_error)
   __pyx_v_priors_array = __pyx_t_8;
   __pyx_t_8.memview = NULL;
   __pyx_t_8.data = NULL;
 
   /* "wrapper.pyx":45
  *     cdef int[::1] syndrome_array = syndrome
- *     cdef float[::1] priors_array = priors
+ *     cdef double[::1] priors_array = priors
  *     cdef int[::1] error_computed_array = error_computed             # <<<<<<<<<<<<<<
  * 
  * 
@@ -17105,7 +17105,7 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
     __Pyx_RaiseBufferIndexError(__pyx_t_16);
     __PYX_ERR(0, 48, __pyx_L1_error)
   }
-  __pyx_t_17 = __Pyx_PyFloat_AsFloat(__pyx_v_alpha); if (unlikely((__pyx_t_17 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_17 = __Pyx_PyFloat_AsDouble(__pyx_v_alpha); if (unlikely((__pyx_t_17 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
   __pyx_t_16 = __Pyx_PyLong_As_int(__pyx_v_num_it); if (unlikely((__pyx_t_16 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 48, __pyx_L1_error)
   __pyx_t_18 = 0;
   __pyx_t_19 = -1;
@@ -17117,7 +17117,7 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
     __Pyx_RaiseBufferIndexError(__pyx_t_19);
     __PYX_ERR(0, 48, __pyx_L1_error)
   }
-  min_sum((&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_L_array.data) + __pyx_t_10)) )))), (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_non_zero_array.data) + __pyx_t_12)) )))), (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_syndrome_array.data) + __pyx_t_13)) )))), __pyx_t_11, __pyx_t_14, (&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_v_priors_array.data) + __pyx_t_15)) )))), __pyx_t_17, __pyx_t_16, (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_error_computed_array.data) + __pyx_t_18)) )))));
+  min_sum((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_L_array.data) + __pyx_t_10)) )))), (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_non_zero_array.data) + __pyx_t_12)) )))), (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_syndrome_array.data) + __pyx_t_13)) )))), __pyx_t_11, __pyx_t_14, (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_priors_array.data) + __pyx_t_15)) )))), __pyx_t_17, __pyx_t_16, (&(*((int *) ( /* dim=0 */ ((char *) (((int *) __pyx_v_error_computed_array.data) + __pyx_t_18)) )))));
 
   /* "wrapper.pyx":49
  * 
@@ -17125,7 +17125,7 @@ static PyObject *__pyx_pf_7wrapper_compute_min_sum_wrapper(CYTHON_UNUSED PyObjec
  *     return L_array, error_computed_array             # <<<<<<<<<<<<<<
 */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_L_array, 1, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_L_array, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_error_computed_array, 1, (PyObject *(*)(char *)) __pyx_memview_get_int, (int (*)(char *, PyObject *)) __pyx_memview_set_int, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
@@ -19442,7 +19442,7 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
   {
     const __Pyx_PyCode_New_function_description descr = {9, 0, 0, 14, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 34, 159};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_L, __pyx_mstate->__pyx_n_u_non_zero, __pyx_mstate->__pyx_n_u_syndrome, __pyx_mstate->__pyx_n_u_size_checks, __pyx_mstate->__pyx_n_u_size_vnodes, __pyx_mstate->__pyx_n_u_priors, __pyx_mstate->__pyx_n_u_alpha, __pyx_mstate->__pyx_n_u_num_it, __pyx_mstate->__pyx_n_u_error_computed, __pyx_mstate->__pyx_n_u_L_array, __pyx_mstate->__pyx_n_u_non_zero_array, __pyx_mstate->__pyx_n_u_syndrome_array, __pyx_mstate->__pyx_n_u_priors_array, __pyx_mstate->__pyx_n_u_error_computed_array};
-    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_wrapper_pyx, __pyx_mstate->__pyx_n_u_compute_min_sum_wrapper, __pyx_k_t1F_B_t86_2_q_a_1_1_1_1AWAT_A_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
+    __pyx_mstate_global->__pyx_codeobj_tab[0] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_wrapper_pyx, __pyx_mstate->__pyx_n_u_compute_min_sum_wrapper, __pyx_k_t1F_B_t86_2_q_q_1_1_A_1AWAT_A_1, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[0])) goto bad;
   }
   Py_DECREF(tuple_dedup_map);
   return 0;
@@ -25398,7 +25398,7 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
-  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_float(PyObject *obj, int writable_flag) {
+  static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *obj, int writable_flag) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
     int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
@@ -25409,7 +25409,7 @@ no_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
                                                  (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT) | writable_flag, 1,
-                                                 &__Pyx_TypeInfo_float, stack,
+                                                 &__Pyx_TypeInfo_double, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))
         goto __pyx_fail;
@@ -25466,14 +25466,14 @@ __pyx_fail:
     }
 
 /* MemviewDtypeToObject */
-  static CYTHON_INLINE PyObject *__pyx_memview_get_float(const char *itemp) {
-    return (PyObject *) PyFloat_FromDouble(*(float *) itemp);
+  static CYTHON_INLINE PyObject *__pyx_memview_get_double(const char *itemp) {
+    return (PyObject *) PyFloat_FromDouble(*(double *) itemp);
 }
-static CYTHON_INLINE int __pyx_memview_set_float(const char *itemp, PyObject *obj) {
-    float value = __Pyx_PyFloat_AsFloat(obj);
-    if (unlikely((value == (float)-1) && PyErr_Occurred()))
+static CYTHON_INLINE int __pyx_memview_set_double(const char *itemp, PyObject *obj) {
+    double value = __Pyx_PyFloat_AsDouble(obj);
+    if (unlikely((value == (double)-1) && PyErr_Occurred()))
         return 0;
-    *(float *) itemp = value;
+    *(double *) itemp = value;
     return 1;
 }
 

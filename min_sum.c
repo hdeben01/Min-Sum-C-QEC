@@ -2,9 +2,9 @@
 
 
 
-void min_sum(float *L,  int *pcm_matrix, 
+void min_sum(double *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
-                            float Lj[VNODES], float alpha, int num_it, int *error_computed)
+                            double Lj[VNODES], double alpha, int num_it, int *error_computed)
 {
 
     for(int i = 0; i < num_it; i++){
@@ -12,7 +12,7 @@ void min_sum(float *L,  int *pcm_matrix,
         //color_printf(CYAN, "Iteration %d\n", i+1);
 
 
-        float sum[VNODES];
+        double sum[VNODES];
         //int error[VNODES];
 
         compute_row_operations(L, pcm_matrix, syndrome, size_checks, size_vnode);
@@ -63,32 +63,32 @@ void min_sum(float *L,  int *pcm_matrix,
             //color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
-        else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
+        //else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
         //printf("\n");
         //------------------------------------------
     }
 }
 
-void compute_row_operations(float *L,  int *non_zero, 
+void compute_row_operations(double *L,  int *non_zero, 
                             int* syndrome, int size_checks, int size_vnode)
 {
 
     for(int i = 0; i < CHECK; i++){
         if(i == size_checks) break;
 
-        float min1 = FLT_MAX, min2 = FLT_MAX;
+        double min1 = DBL_MAX, min2 = DBL_MAX;
         int minpos = -1;
         int sign_minpos = 0;
         int row_sign = 0;
-        float product = 1.0;
+        double product = 1.0;
 
         // Search min1 and min2
         for(int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
-            float val = L[i * VNODES + j];
-            float abs_val = fabs(val);
+            double val = L[i * VNODES + j];
+            double abs_val = fabs(val);
 
             if(non_zero[i * VNODES + j]){
                 if(abs_val < min1){
@@ -108,12 +108,12 @@ void compute_row_operations(float *L,  int *non_zero,
         for(int j = 0; j < VNODES; j++){
             if(j == size_vnode) break;
 
-            float val = L[i * VNODES + j];
+            double val = L[i * VNODES + j];
 
             if(non_zero[i * VNODES + j]){
                 // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
                 // and positive (1.0f) if its 1
-                float sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
+                double sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
 
                 // Assign min2 to minpos when loop ends to save if statements
                 L[i * VNODES + j] = sign * min1;
@@ -125,16 +125,16 @@ void compute_row_operations(float *L,  int *non_zero,
     }
 }
 
-void compute_col_operations(float *L,  int *non_zero,
-                            int* syndrome, int size_checks, int size_vnode, float alpha, 
-                            float Lj[CHECK], float sum[VNODES])
+void compute_col_operations(double *L,  int *non_zero,
+                            int* syndrome, int size_checks, int size_vnode, double alpha, 
+                            double Lj[CHECK], double sum[VNODES])
 {
     
     for (int j = 0; j < VNODES; j++){
         if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
-        float sum_aux = 0.0f;
+        double sum_aux = 0.0f;
         for(int i = 0; i < CHECK; i++){
             if (i == size_checks) break;
 
@@ -248,7 +248,7 @@ void compute_col_operations(float *L,  int *non_zero,
     return 0;
 }*/
 
-void show_matrix( float *matrix, int *non_zero,
+void show_matrix( double *matrix, int *non_zero,
                   int rows,  int cols)
 {
     for(int i = 0; i < rows; i++){
