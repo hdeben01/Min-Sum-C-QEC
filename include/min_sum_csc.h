@@ -16,6 +16,21 @@
 #include <float.h>
 #include <math.h>
 
+typedef struct {
+    int rows;
+    int cols;
+    int *offset_cols;
+    int *row_index;
+    double *values;
+} csc_matrix_t;
+
+typedef struct {
+    int rows, cols;
+    int *offset_rows;
+    int col_index;
+    double *values;
+} csr_matrix_t;
+
 #define RESET   "\033[0m"
 #define RED     "\033[0;31m"
 #define GREEN   "\033[0;32m"

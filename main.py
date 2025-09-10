@@ -26,7 +26,7 @@ def main():
     print(len(pcm))
     print(cols)
      
-    NMCs = [10**5, 10**5, 10**5, 10**5, 10**5]  
+    NMCs = [10**4, 10**4, 10**4, 10**4, 10**4]  
     
     # Physical error rate that is simulated
     
