@@ -33,39 +33,51 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         }
 
         // ----------- DEBUG PRINT --------------
-        //printf("\tError computed: ");
+        printf("\tError computed: ");
         for(int j = 0; j < VNODES; j++){
-            //printf("%d ",error_computed[j]);
+            printf("%d ",error_computed[j]);
         }
-        //printf("\n");
+        printf("\n");
         //------------------------------------------
 
         // Compute S = eH^T
+        
         int resulting_syndrome[CHECK];
-        for(int i = 0; i < CHECK; i++){
+        for(int z = 0; z < CHECK; z++){
             int row_op = 0;
-            for(int j = 0; j < VNODES; j++){
-                row_op ^= (error_computed[j] & pcm_matrix[i * VNODES + j]);
+            int start = L->offset_rows[z];
+            int row_end_index = L->offset_rows[z + 1];
+            //to compute the error we only need the values where there is 1 in the H matrix
+            for(int j = start; j < row_end_index; j++){
+                int k = L->col_index[j];
+                row_op ^= error_computed[k]; //we dont need the pcm because we are already iterating through the positions that are 1
             }
-            resulting_syndrome[i] = row_op;
+            resulting_syndrome[z] = row_op;
         }
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
-        //printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            //printf("%d ",resulting_syndrome[i]);
+          
+            printf("%d", syndrome[i]);
+            
+        }
+        printf("\n");
+        
+        printf("\tResulting syndrome: ");
+        for(int i = 0; i < CHECK; i++){
+            printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-        //printf("\n");
+        printf("\n");
 
         if(error_found) {
-            //color_printf(GREEN, "\tERROR FOUND\n");
+            color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
-        //else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
+        else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
-        //printf("\n");
+        printf("\n");
         //------------------------------------------
     }
 }
@@ -85,7 +97,7 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
 
         // Search min1 and min2
         int start = L->offset_rows[i];
-        int row_end_index = L->col_index[i + 1];
+        int row_end_index = L->offset_rows[i + 1];
         for(int j = start; j < row_end_index; j++){
             if(j == size_vnode) break;
 
@@ -140,31 +152,40 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
         int col_end_index = L->offset_cols[j + 1];
         for(int i = start; i < col_end_index; i++){
             if (i == size_checks) break;
-            
-            sum_aux += L[i * VNODES + j];
+
+            sum_aux += L->values[L->edges[i]];
         }
 
         sum[j] = Lj[j] + (alpha * sum_aux);
     }
 
-    for (int i = 0; i < CHECK; i++){
-        if(i == size_checks) break;
+    //columnn iteration
+    for (int j = 0; j < VNODES; j++){
+        if (j == size_vnode) break;
 
-        for (int j = 0; j < VNODES; j++){
-            if(j == size_vnode) break;
+        // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
+        double sum_aux = 0.0f;
+        int start = L->offset_cols[j];
+        int col_end_index = L->offset_cols[j + 1];
+        for(int i = start; i < col_end_index; i++){
+            if (i == size_checks) break;
 
-            if(non_zero[i * VNODES + j]) L[i * VNODES + j] = sum[j] - (alpha * L[i * VNODES + j]);
+            L->values[L->edges[i]] = sum[j] - (alpha * L->values[L->edges[i]]);
         }
+
+    
     }
+
+
 
 }
 
-/*int main() {
-    float *L;//[CHECK][VNODES];
-    L = (float*)malloc(CHECK*VNODES*sizeof(float));
+int main() {
+    double *L;//[CHECK][VNODES];
+    L = (double*)malloc(CHECK*VNODES*sizeof(double));
     int *pcm_matrix;//[CHECK][VNODES];
     pcm_matrix = (int*)malloc(CHECK*VNODES*sizeof(int));
-    float Lj[VNODES];
+    double Lj[VNODES];
     FILE *file = fopen("input3.txt","r");
     if (file == NULL){
         perror("Error opening file");
@@ -172,7 +193,7 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
     }
 
     // Read the probability p of the error model
-    float p;
+    double p;
     if (fscanf(file, "%f", &p) != 1) {
             fprintf(stderr, "Error reading probability p\n");
             fclose(file);
@@ -226,9 +247,12 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
     }
     printf("Lj: %.2f\n", p);
 
+    sparse_matrix_t *L_sparse = malloc(sizeof(sparse_matrix_t));
+    to_sparse_matrix_t(L,L_sparse);
+
     // Read alpha
-    float alpha;
-    if (fscanf(file, "%f", &alpha) != 1) {
+    double alpha;
+    if (fscanf(file, "%lf", &alpha) != 1) {
         fprintf(stderr, "Error reading alpha\n");
         fclose(file);
         return 1;
@@ -246,10 +270,70 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
     printf("Initial L Matrix:\n");
     show_matrix(L, pcm_matrix, rows, cols);
 
-    min_sum(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
+    int error_computed[CHECK];
+
+    min_sum(L_sparse, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it, &error_computed[0]);
     
     return 0;
-}*/
+}
+// Recieves a flattened dense float matrix L (CHECK x VNODES) and fills out with CSR + edges for CSC
+void to_sparse_matrix_t(double *L, sparse_matrix_t *out) {
+    // Assumes out is already allocated and zeroed
+    int nnz = 0;
+    // Count non-zeros
+    for (int i = 0; i < CHECK; i++) {
+        for (int j = 0; j < VNODES; j++) {
+            if (L[i * VNODES + j] != 0.0f) nnz++;
+        }
+    }
+
+    // Allocate arrays
+    out->values = (double*)malloc(nnz * sizeof(double));
+    out->col_index = (int*)malloc(nnz * sizeof(int));
+    out->offset_rows = (int*)malloc((CHECK + 1) * sizeof(int));
+    out->offset_cols = (int*)malloc((VNODES + 1) * sizeof(int));
+    out->edges = (int*)malloc(nnz * sizeof(int));
+
+    // Fill CSR (row-wise)
+    int idx = 0;
+    for (int i = 0; i < CHECK; i++) {
+        out->offset_rows[i] = idx;
+        for (int j = 0; j < VNODES; j++) {
+            double val = L[i * VNODES + j];
+            if (val != 0.0f) {
+                out->values[idx] = val;
+                out->col_index[idx] = j;
+                idx++;
+            }
+        }
+    }
+    out->offset_rows[CHECK] = idx;
+
+    // Fill CSC offsets (count non-zeros per column)
+    for (int j = 0; j <= VNODES; j++) out->offset_cols[j] = 0;
+    for (int i = 0; i < CHECK; i++) {
+        for (int k = out->offset_rows[i]; k < out->offset_rows[i+1]; k++) {
+            int col = out->col_index[k];
+            out->offset_cols[col+1]++;
+        }
+    }
+    // Prefix sum for offset_cols
+    for (int j = 0; j < VNODES; j++) {
+        out->offset_cols[j+1] += out->offset_cols[j];
+    }
+
+    // Fill edges (CSC: for each column, store indices into values[] for that column)
+    int *col_counts = (int*)calloc(VNODES, sizeof(int));
+    for (int i = 0; i < CHECK; i++) {
+        for (int k = out->offset_rows[i]; k < out->offset_rows[i+1]; k++) {
+            int col = out->col_index[k];
+            int pos = out->offset_cols[col] + col_counts[col];
+            out->edges[pos] = k;
+            col_counts[col]++;
+        }
+    }
+    free(col_counts);
+}
 
 void show_matrix( double *matrix, int *non_zero,
                   int rows,  int cols)

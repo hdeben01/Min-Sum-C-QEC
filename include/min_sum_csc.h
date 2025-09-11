@@ -1,10 +1,10 @@
 #pragma once
 
 #ifndef VNODES
-#define VNODES 4464
+#define VNODES 7
 #endif
 #ifndef CHECK 
-#define CHECK 504
+#define CHECK 3
 #endif
 
 #ifndef COLORS_H
@@ -69,3 +69,5 @@ void show_matrix( double *matrix, int *non_zero,
 void min_sum(sparse_matrix_t *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
                             double Lj[VNODES], double alpha, int num_it, int *error_computed);
+
+void to_sparse_matrix_t(double *L, sparse_matrix_t *out);

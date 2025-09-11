@@ -52,20 +52,20 @@ void min_sum(double *L,  int *pcm_matrix,
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
-        //printf("\tResulting syndrome: ");
+        printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            //printf("%d ",resulting_syndrome[i]);
+            printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-        //printf("\n");
+        printf("\n");
 
         if(error_found) {
-            //color_printf(GREEN, "\tERROR FOUND\n");
+            color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
         //else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
-        //printf("\n");
+        printf("\n");
         //------------------------------------------
     }
 }
@@ -156,12 +156,12 @@ void compute_col_operations(double *L,  int *non_zero,
 
 }
 
-/*int main() {
-    float *L;//[CHECK][VNODES];
-    L = (float*)malloc(CHECK*VNODES*sizeof(float));
+int main() {
+    double *L;//[CHECK][VNODES];
+    L = (double*)malloc(CHECK*VNODES*sizeof(double));
     int *pcm_matrix;//[CHECK][VNODES];
     pcm_matrix = (int*)malloc(CHECK*VNODES*sizeof(int));
-    float Lj[VNODES];
+    double Lj[VNODES];
     FILE *file = fopen("input3.txt","r");
     if (file == NULL){
         perror("Error opening file");
@@ -169,8 +169,8 @@ void compute_col_operations(double *L,  int *non_zero,
     }
 
     // Read the probability p of the error model
-    float p;
-    if (fscanf(file, "%f", &p) != 1) {
+    double p;
+    if (fscanf(file, "%lf", &p) != 1) {
             fprintf(stderr, "Error reading probability p\n");
             fclose(file);
             return 1;
@@ -224,8 +224,8 @@ void compute_col_operations(double *L,  int *non_zero,
     printf("Lj: %.2f\n", p);
 
     // Read alpha
-    float alpha;
-    if (fscanf(file, "%f", &alpha) != 1) {
+    double alpha;
+    if (fscanf(file, "%lf", &alpha) != 1) {
         fprintf(stderr, "Error reading alpha\n");
         fclose(file);
         return 1;
@@ -238,15 +238,16 @@ void compute_col_operations(double *L,  int *non_zero,
         fclose(file);
         return 1;
     }
+    int error_computed[CHECK];
     printf("Max Iterations: %d\n\n", num_it);
 
     printf("Initial L Matrix:\n");
     show_matrix(L, pcm_matrix, rows, cols);
 
-    min_sum(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it);
+    min_sum(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it,&error_computed[0]);
     
     return 0;
-}*/
+}
 
 void show_matrix( double *matrix, int *non_zero,
                   int rows,  int cols)
