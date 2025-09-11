@@ -2,7 +2,7 @@
 
 
 
-void min_sum(csc_matrix_t *L_csc,csr_matrix_t* L_csr,  int *pcm_matrix, 
+void min_sum(sparse_matrix_t *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
                             double Lj[VNODES], double alpha, int num_it, int *error_computed)
 {
@@ -70,11 +70,11 @@ void min_sum(csc_matrix_t *L_csc,csr_matrix_t* L_csr,  int *pcm_matrix,
     }
 }
 
-void compute_row_operations(double *L,  int *non_zero, 
+void compute_row_operations(sparse_matrix_t *L,  int *non_zero, 
                             int* syndrome, int size_checks, int size_vnode)
 {
 
-    for(int i = 0; i < CHECK; i++){
+    for(int i = 0; i < CHECK + 1; i++){
         if(i == size_checks) break;
 
         double min1 = DBL_MAX, min2 = DBL_MAX;
@@ -84,48 +84,49 @@ void compute_row_operations(double *L,  int *non_zero,
         double product = 1.0;
 
         // Search min1 and min2
-        for(int j = 0; j < VNODES; j++){
+        int start = L->offset_rows[i];
+        int row_end_index = L->col_index[i + 1];
+        for(int j = start; j < row_end_index; j++){
             if(j == size_vnode) break;
 
-            double val = L[i * VNODES + j];
+            double val = L->values[j];
             double abs_val = fabs(val);
 
-            if(non_zero[i * VNODES + j]){
-                if(abs_val < min1){
-                    min2 = min1;
-                    min1 = abs_val;
-                    minpos = j;
-                    sign_minpos = (val >= 0 ? 0 : 1);
-                }else if (abs_val < min2) {
-                    min2 = abs_val;
-                }
+            
+            if(abs_val < min1){
+                min2 = min1;
+                min1 = abs_val;
+                minpos = j;
+                sign_minpos = (val >= 0 ? 0 : 1);
+            }else if (abs_val < min2) {
+                min2 = abs_val;
             }
+            
 
             row_sign = row_sign ^ (val >= 0 ? 0 : 1);
         }
 
         // Apply the corresponding value and sign to out[][]
-        for(int j = 0; j < VNODES; j++){
+        for(int j = start; j < row_end_index; j++){
             if(j == size_vnode) break;
 
-            double val = L[i * VNODES + j];
+            double val = L->values[j];
 
-            if(non_zero[i * VNODES + j]){
-                // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
-                // and positive (1.0f) if its 1
-                double sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
+            // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
+            // and positive (1.0f) if its 1
+            double sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
 
-                // Assign min2 to minpos when loop ends to save if statements
-                L[i * VNODES + j] = sign * min1;
-            }
+            
+            L->values[j] = sign * min1;
+            
         }
 
         // Assigning min2 to minpos
-        L[i * VNODES + minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
+        L->values[minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
     }
 }
 
-void compute_col_operations(double *L,  int *non_zero,
+void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
                             int* syndrome, int size_checks, int size_vnode, double alpha, 
                             double Lj[CHECK], double sum[VNODES])
 {
@@ -135,9 +136,11 @@ void compute_col_operations(double *L,  int *non_zero,
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
         double sum_aux = 0.0f;
-        for(int i = 0; i < CHECK; i++){
+        int start = L->offset_cols[j];
+        int col_end_index = L->offset_cols[j + 1];
+        for(int i = start; i < col_end_index; i++){
             if (i == size_checks) break;
-
+            
             sum_aux += L[i * VNODES + j];
         }
 

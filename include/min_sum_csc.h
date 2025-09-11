@@ -16,20 +16,25 @@
 #include <float.h>
 #include <math.h>
 
+//this data structure is a mixture of csc and csr representation in order to iterate over a sparse matrix in row and column order
+//https://docs.nvidia.com/nvpl/latest/sparse/storage_format/sparse_matrix.html#compressed-sparse-column-csc
 typedef struct {
     int rows;
     int cols;
+    //csc
     int *offset_cols;
     int *row_index;
-    double *values;
-} csc_matrix_t;
-
-typedef struct {
-    int rows, cols;
+    //csr
     int *offset_rows;
-    int col_index;
+    int *col_index;
+
+    //pairs 
+    int *edges;
+    int nnz; //number of non zero values
     double *values;
-} csr_matrix_t;
+
+} sparse_matrix_t;
+
 
 #define RESET   "\033[0m"
 #define RED     "\033[0;31m"
@@ -51,16 +56,16 @@ static inline void color_printf( char *color,  char *format, ...) {
 
 #endif // COLORS_H
 
-void compute_row_operations(double *L,  int *non_zero,
+void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
                             int* syndrome, int size_checks, int size_vnode);
 
-void compute_col_operations(double *L,  int *non_zero, 
+void compute_col_operations(sparse_matrix_t *L,  int *non_zero, 
                             int* syndrome, int size_checks, int size_vnode, double alpha, 
                             double Lj[VNODES], double sum[VNODES]);
 
 void show_matrix( double *matrix, int *non_zero,
                   int rows,  int cols);
 
-void min_sum(double *L,  int *pcm_matrix, 
+void min_sum(sparse_matrix_t *L,  int *pcm_matrix, 
                             int* syndrome, int size_checks, int size_vnode, 
                             double Lj[VNODES], double alpha, int num_it, int *error_computed);
