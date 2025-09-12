@@ -52,20 +52,20 @@ void min_sum(double *L,  int *pcm_matrix,
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
-        printf("\tResulting syndrome: ");
+        //printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            printf("%d ",resulting_syndrome[i]);
+            //printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-        printf("\n");
+        //printf("\n");
 
         if(error_found) {
-            color_printf(GREEN, "\tERROR FOUND\n");
+            //color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
         //else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
-        printf("\n");
+        //printf("\n");
         //------------------------------------------
     }
 }
@@ -156,7 +156,7 @@ void compute_col_operations(double *L,  int *non_zero,
 
 }
 
-int main() {
+/*int main() {
     double *L;//[CHECK][VNODES];
     L = (double*)malloc(CHECK*VNODES*sizeof(double));
     int *pcm_matrix;//[CHECK][VNODES];
@@ -267,4 +267,4 @@ void show_matrix( double *matrix, int *non_zero,
         printf("\n");
     }
     printf("\n");
-}
+}*/
