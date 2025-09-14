@@ -26,15 +26,15 @@ if __name__ == "__main__":
     show_prints = False
     
     # List of codes to test in this example is the [[72, 12 ,6]] from https://www.nature.com/articles/s41586-024-07107-7
-    codesConfig = ["144"]
+    codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 5
+    exp = 4
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
     
-    ps = np.linspace(0.001, 0.005, num=5)  
+    ps = np.linspace(0.001, 0.01, num=10)  
     
     print(ps)
     
