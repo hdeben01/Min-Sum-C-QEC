@@ -221,7 +221,7 @@ int main() {
             }
             pcm_matrix[i * VNODES + j] = value;
             if(value == 1){
-                L[i * VNODES + j] = p;
+                L[i * VNODES + j] = 0;
             }else{
                 L[i * VNODES + j] = 0;
             }
@@ -248,7 +248,7 @@ int main() {
     printf("Lj: %.2f\n", p);
 
     sparse_matrix_t *L_sparse = malloc(sizeof(sparse_matrix_t));
-    to_sparse_matrix_t(L,L_sparse);
+    to_sparse_matrix_t(L,L_sparse, pcm_matrix);
 
     // Read alpha
     double alpha;
@@ -277,13 +277,13 @@ int main() {
     return 0;
 }
 // Recieves a flattened dense float matrix L (CHECK x VNODES) and fills out with CSR + edges for CSC
-void to_sparse_matrix_t(double *L, sparse_matrix_t *out) {
+void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
     // Assumes out is already allocated and zeroed
     int nnz = 0;
     // Count non-zeros
     for (int i = 0; i < CHECK; i++) {
         for (int j = 0; j < VNODES; j++) {
-            if (L[i * VNODES + j] != 0.0f) nnz++;
+            if (pcm[i * VNODES + j] != 0.0f) nnz++;
         }
     }
 
@@ -299,9 +299,9 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out) {
     for (int i = 0; i < CHECK; i++) {
         out->offset_rows[i] = idx;
         for (int j = 0; j < VNODES; j++) {
-            double val = L[i * VNODES + j];
+            double val = pcm[i * VNODES + j];
             if (val != 0.0f) {
-                out->values[idx] = val;
+                out->values[idx] = 0;
                 out->col_index[idx] = j;
                 idx++;
             }

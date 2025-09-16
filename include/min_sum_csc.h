@@ -32,6 +32,8 @@ typedef struct {
     int *edges;
     int nnz; //number of non zero values
     double *values;
+    //double *values_csc;
+    //double *values_csr;
 
 } sparse_matrix_t;
 
@@ -70,4 +72,4 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
                             int* syndrome, int size_checks, int size_vnode, 
                             double Lj[VNODES], double alpha, int num_it, int *error_computed);
 
-void to_sparse_matrix_t(double *L, sparse_matrix_t *out);
+void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm);
