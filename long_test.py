@@ -30,7 +30,7 @@ if __name__ == "__main__":
     
     # Number of Monte Carlo trials for physical error rates
     exp = 4
-    NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
+    NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp,10**exp,10**exp,10**exp,10**exp,10**exp]  
     
     # Physical error rate that is simulated
     
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         pcm = sparse.csc_matrix(code.hx, dtype=np.uint8)    
                 
         # Code distance
-        d = 12
+        d = 6
  
      
 
