@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     #q_reliability = 0.0
     #q_reliability = (1.0 - (2.0/3.0) * q_reliability)
-    alpha = 0.9
+    alpha = 1.0
     
 
     
@@ -274,4 +274,4 @@ plt.legend()
 plt.tight_layout()
 
 # Guardar en PNG
-plt.savefig("logical_vs_physical.png", dpi=300)
+plt.savefig("logical_vs_physical.png_2", dpi=300)
