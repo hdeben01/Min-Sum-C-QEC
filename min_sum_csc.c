@@ -19,9 +19,13 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         //printf("\tL matrix after row ops:\n");
         //show_matrix(L, pcm_matrix, size_checks, size_vnode);
 
+        csr_to_csc(L);
+
         compute_col_operations(L, pcm_matrix, syndrome, size_checks, size_vnode, alpha, Lj, sum);
         //printf("\tL matrix after col ops:\n");
         //show_matrix(L, pcm_matrix, size_checks, size_vnode);
+
+        csc_to_csr(L);
 
 
         // Correct syndrome from the values of the codeword
@@ -107,7 +111,7 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
         for(int j = start; j < row_end_index; j++){
             if(j == size_vnode) break;
 
-            double val = L->values[j];
+            double val = L->values_csr[j];
             double abs_val = fabs(val);
 
             
@@ -124,23 +128,22 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
             row_sign = row_sign ^ (val >= 0 ? 0 : 1);
         }
 
-        // Apply the corresponding value and sign to out[][]
         for(int j = start; j < row_end_index; j++){
             if(j == size_vnode) break;
 
-            double val = L->values[j];
+            double val = L->values_csr[j];
 
             // sign is negative (-1.0f) if the final signbit (operation in parethesis) is 0, 
             // and positive (1.0f) if its 1
             double sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
 
             
-            L->values[j] = sign * min1;
+            L->values_csr[j] = sign * min1;
             
         }
 
         // Assigning min2 to minpos
-        L->values[minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
+        L->values_csr[minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
     }
 }
 
@@ -159,7 +162,7 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
         for(int i = start; i < col_end_index; i++){
             if (i == size_checks) break;
 
-            sum_aux += L->values[L->edges[i]];
+            sum_aux += L->values_csc[i];
             printf("SUMA AUX: %f\n", sum_aux);
         }
 
@@ -177,13 +180,10 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
         for(int i = start; i < col_end_index; i++){
             if (i == size_checks) break;
 
-            L->values[L->edges[i]] = sum[j] - (alpha * L->values[L->edges[i]]);
+            L->values_csc[i] = sum[j] - (alpha * L->values_csc[i]);
         }
-
     
     }
-
-
 
 }
 
@@ -284,10 +284,25 @@ int main() {
     
     return 0;
 }
+
+void csr_to_csc(sparse_matrix_t *L){
+    for(int i = 0; i < L->nnz; i++){
+        L->values_csc[i] = L->values_csr[L->edges[i]];
+    }
+}
+
+void csc_to_csr(sparse_matrix_t *L){
+    for(int i = 0; i < L->nnz; i++){
+        L->values_csr[L->edges[i]] = L->values_csc[i]; 
+    }
+}
+
+
 // Recieves a flattened dense float matrix L (CHECK x VNODES) and fills out with CSR + edges for CSC
 void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
     // Assumes out is already allocated and zeroed
     int nnz = 0;
+
     // Count non-zeros
     for (int i = 0; i < CHECK; i++) {
         for (int j = 0; j < VNODES; j++) {
@@ -296,11 +311,14 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
     }
 
     // Allocate arrays
-    out->values = (double*)malloc(nnz * sizeof(double));
+    out->values_csr = (double*)malloc(nnz * sizeof(double));
+    out->values_csc = (double*)malloc(nnz * sizeof(double));
     out->col_index = (int*)malloc(nnz * sizeof(int));
     out->offset_rows = (int*)malloc((CHECK + 1) * sizeof(int));
     out->offset_cols = (int*)malloc((VNODES + 1) * sizeof(int));
     out->edges = (int*)malloc(nnz * sizeof(int));
+
+    int *col_counts = (int*)calloc(VNODES, sizeof(int));
 
     // Fill CSR (row-wise)
     int idx = 0;
@@ -309,7 +327,7 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
         for (int j = 0; j < VNODES; j++) {
             double val = pcm[i * VNODES + j];
             if (val != 0.0f) {
-                out->values[idx] = 0;
+                out->values_csr[idx] = 0;
                 out->col_index[idx] = j;
                 idx++;
             }
@@ -317,29 +335,31 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
     }
     out->offset_rows[CHECK] = idx;
 
-    // Fill CSC offsets (count non-zeros per column)
-    for (int j = 0; j <= VNODES; j++) out->offset_cols[j] = 0;
-    for (int i = 0; i < CHECK; i++) {
-        for (int k = out->offset_rows[i]; k < out->offset_rows[i+1]; k++) {
-            int col = out->col_index[k];
-            out->offset_cols[col+1]++;
+    // Fill CSC (col-wise)
+    idx = 0;
+    for (int i = 0; i < VNODES; i++) {
+        out->offset_rows[i] = idx;
+        for (int j = 0; j < CHECK; j++) {
+            double val = pcm[j * VNODES + i];
+            if (val != 0.0f) {
+                out->values_csc[idx] = 0;
+                out->row_index[idx] = j;
+                idx++;
+            }
         }
     }
-    // Prefix sum for offset_cols
-    for (int j = 0; j < VNODES; j++) {
-        out->offset_cols[j+1] += out->offset_cols[j];
-    }
+    out->offset_cols[VNODES] = idx;
 
-    // Fill edges (CSC: for each column, store indices into values[] for that column)
-    int *col_counts = (int*)calloc(VNODES, sizeof(int));
-    for (int i = 0; i < CHECK; i++) {
-        for (int k = out->offset_rows[i]; k < out->offset_rows[i+1]; k++) {
+    // 
+    for(int i = 0; i < CHECK; i++){
+        for(int k = out->offset_rows[i]; k < out->offset_rows[i+1]; k++){
             int col = out->col_index[k];
             int pos = out->offset_cols[col] + col_counts[col];
             out->edges[pos] = k;
             col_counts[col]++;
         }
     }
+
     for(int i = 0; i < nnz; i++){
         printf("%d ", out->edges[i]);
     }
