@@ -38,6 +38,12 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
             printf("%d ",error_computed[j]);
         }
         printf("\n");
+
+        printf("\tSum computed: ");
+        for(int j = 0; j < VNODES; j++){
+            printf("%lf ",sum[j]);
+        }
+        printf("\n");
         //------------------------------------------
 
         // Compute S = eH^T
@@ -154,6 +160,7 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
             if (i == size_checks) break;
 
             sum_aux += L->values[L->edges[i]];
+            printf("SUMA AUX: %f\n", sum_aux);
         }
 
         sum[j] = Lj[j] + (alpha * sum_aux);
@@ -194,12 +201,13 @@ int main() {
 
     // Read the probability p of the error model
     double p;
-    if (fscanf(file, "%f", &p) != 1) {
+    if (fscanf(file, "%lf", &p) != 1) {
             fprintf(stderr, "Error reading probability p\n");
             fclose(file);
             return 1;
     }
-    p = (1.0f - (2.0f/3.0f) * p);
+    p = 1;//log((1.0f - p) /p);
+    
 
 
     // Read rows and cols
@@ -210,7 +218,7 @@ int main() {
         return 1;
     }
 
-    // Read matrix L (initial beliefs)
+     //Read matrix L (initial beliefs)
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
             int value;
@@ -221,10 +229,10 @@ int main() {
             }
             pcm_matrix[i * VNODES + j] = value;
             if(value == 1){
-                L[i * VNODES + j] = 0;
+                L[i * VNODES + j] = 1.0f;
             }else{
                 L[i * VNODES + j] = 0;
-            }
+            }  
         }
     }
 
@@ -332,6 +340,10 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
             col_counts[col]++;
         }
     }
+    for(int i = 0; i < nnz; i++){
+        printf("%d ", out->edges[i]);
+    }
+    printf("\n");
     free(col_counts);
 }
 
