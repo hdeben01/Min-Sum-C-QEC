@@ -75,6 +75,6 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
 
 void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm);
 
-void csc_to_csr();
+void csc_to_csr(sparse_matrix_t *L);
 
-void csr_to_csc();
+void csr_to_csc(sparse_matrix_t *L);

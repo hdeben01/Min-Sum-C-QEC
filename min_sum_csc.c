@@ -16,14 +16,20 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         //int error[VNODES];
 
         compute_row_operations(L, pcm_matrix, syndrome, size_checks, size_vnode);
-        //printf("\tL matrix after row ops:\n");
-        //show_matrix(L, pcm_matrix, size_checks, size_vnode);
+        
+        /*printf("\tvalues after row ops:\n");
+        for(int i = 0; i < L->nnz; i++){
+            printf("%lf",L->values_csr[i]);
+        }*/
 
         csr_to_csc(L);
 
         compute_col_operations(L, pcm_matrix, syndrome, size_checks, size_vnode, alpha, Lj, sum);
-        //printf("\tL matrix after col ops:\n");
-        //show_matrix(L, pcm_matrix, size_checks, size_vnode);
+        /*printf("\tvalues after col ops:\n");
+        for(int i = 0; i < L->nnz; i++){
+            printf("%lf",L->values_csc[i]);
+        }*/
+
 
         csc_to_csr(L);
 
@@ -109,7 +115,7 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
         int start = L->offset_rows[i];
         int row_end_index = L->offset_rows[i + 1];
         for(int j = start; j < row_end_index; j++){
-            if(j == size_vnode) break;
+            //if(j == size_vnode) break;
 
             double val = L->values_csr[j];
             double abs_val = fabs(val);
@@ -129,7 +135,7 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
         }
 
         for(int j = start; j < row_end_index; j++){
-            if(j == size_vnode) break;
+            //if(j == size_vnode) break;
 
             double val = L->values_csr[j];
 
@@ -137,7 +143,6 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
             // and positive (1.0f) if its 1
             double sign =  1.0f - (2.0f * (row_sign ^ (val >= 0 ? 0 : 1) ^ syndrome[i]));
 
-            
             L->values_csr[j] = sign * min1;
             
         }
@@ -160,25 +165,24 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
         int start = L->offset_cols[j];
         int col_end_index = L->offset_cols[j + 1];
         for(int i = start; i < col_end_index; i++){
-            if (i == size_checks) break;
+            //if (i == size_checks) break;
 
             sum_aux += L->values_csc[i];
-            printf("SUMA AUX: %f\n", sum_aux);
+            
         }
-
         sum[j] = Lj[j] + (alpha * sum_aux);
     }
 
     //columnn iteration
     for (int j = 0; j < VNODES; j++){
-        if (j == size_vnode) break;
+        //if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
         double sum_aux = 0.0f;
         int start = L->offset_cols[j];
         int col_end_index = L->offset_cols[j + 1];
         for(int i = start; i < col_end_index; i++){
-            if (i == size_checks) break;
+            //if (i == size_checks) break;
 
             L->values_csc[i] = sum[j] - (alpha * L->values_csc[i]);
         }
@@ -306,14 +310,17 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
     // Count non-zeros
     for (int i = 0; i < CHECK; i++) {
         for (int j = 0; j < VNODES; j++) {
-            if (pcm[i * VNODES + j] != 0.0f) nnz++;
+           
+            if (pcm[i * VNODES + j] != 0) nnz++;
         }
     }
 
     // Allocate arrays
+    out->nnz = nnz;
     out->values_csr = (double*)malloc(nnz * sizeof(double));
     out->values_csc = (double*)malloc(nnz * sizeof(double));
     out->col_index = (int*)malloc(nnz * sizeof(int));
+    out->row_index = (int*)malloc(nnz * sizeof(int));
     out->offset_rows = (int*)malloc((CHECK + 1) * sizeof(int));
     out->offset_cols = (int*)malloc((VNODES + 1) * sizeof(int));
     out->edges = (int*)malloc(nnz * sizeof(int));
@@ -338,7 +345,7 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
     // Fill CSC (col-wise)
     idx = 0;
     for (int i = 0; i < VNODES; i++) {
-        out->offset_rows[i] = idx;
+        out->offset_cols[i] = idx;
         for (int j = 0; j < CHECK; j++) {
             double val = pcm[j * VNODES + i];
             if (val != 0.0f) {
