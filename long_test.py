@@ -274,4 +274,4 @@ plt.legend()
 plt.tight_layout()
 
 # Guardar en PNG
-plt.savefig("logical_vs_physical.png_2", dpi=300)
+plt.savefig("logical_vs_physical_2.png", dpi=300)
