@@ -102,8 +102,8 @@ void compute_row_operations(sparse_matrix_t *L,
                             int* syndrome, int size_checks, int size_vnode)
 {
 
-    for(int i = 0; i < CHECK + 1; i++){
-        if(i == size_checks) break;
+    for(int i = 0; i < CHECK; i++){
+        //if(i == size_checks) break;
 
         double min1 = DBL_MAX, min2 = DBL_MAX;
         int minpos = -1;
@@ -158,7 +158,7 @@ void compute_col_operations(sparse_matrix_t *L,
 {
     
     for (int j = 0; j < VNODES; j++){
-        if (j == size_vnode) break;
+        //if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
         double sum_aux = 0.0f;
