@@ -6,10 +6,15 @@ extensions = [
         name="wrapper",
         sources=["wrapper.pyx", "min_sum.c"],  # incluir wrapper y tu código C
         include_dirs=["./include"],  # para encontrar mylib.h
+    ),
+    Extension(
+        name="wrapper_csc",
+        sources=["wrapper_csc.pyx", "min_sum_csc.c"],  # incluir wrapper y tu código C
+        include_dirs=["./include"],  # para encontrar mylib.h
     )
 ]
 
 setup(
-    name="wrapper",
+    name="wrapper_csc",
     ext_modules=cythonize(extensions),
 )

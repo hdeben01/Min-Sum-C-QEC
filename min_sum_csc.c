@@ -2,7 +2,7 @@
 
 
 
-void min_sum(sparse_matrix_t *L,  int *pcm_matrix, 
+void min_sum(sparse_matrix_t *L, 
                             int* syndrome, int size_checks, int size_vnode, 
                             double Lj[VNODES], double alpha, int num_it, int *error_computed)
 {
@@ -15,7 +15,7 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         double sum[VNODES];
         //int error[VNODES];
 
-        compute_row_operations(L, pcm_matrix, syndrome, size_checks, size_vnode);
+        compute_row_operations(L, syndrome, size_checks, size_vnode);
         
         /*printf("\tvalues after row ops:\n");
         for(int i = 0; i < L->nnz; i++){
@@ -24,7 +24,7 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
 
         csr_to_csc(L);
 
-        compute_col_operations(L, pcm_matrix, syndrome, size_checks, size_vnode, alpha, Lj, sum);
+        compute_col_operations(L, syndrome, size_checks, size_vnode, alpha, Lj, sum);
         /*printf("\tvalues after col ops:\n");
         for(int i = 0; i < L->nnz; i++){
             printf("%lf",L->values_csc[i]);
@@ -43,17 +43,17 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         }
 
         // ----------- DEBUG PRINT --------------
-        printf("\tError computed: ");
+        /*printf("\tError computed: ");
         for(int j = 0; j < VNODES; j++){
             printf("%d ",error_computed[j]);
         }
-        printf("\n");
+        printf("\n");*/
 
-        printf("\tSum computed: ");
+        /*printf("\tSum computed: ");
         for(int j = 0; j < VNODES; j++){
             printf("%lf ",sum[j]);
         }
-        printf("\n");
+        printf("\n");*/
         //------------------------------------------
 
         // Compute S = eH^T
@@ -73,7 +73,7 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
-        for(int i = 0; i < CHECK; i++){
+        /*for(int i = 0; i < CHECK; i++){
           
             printf("%d", syndrome[i]);
             
@@ -93,12 +93,12 @@ void min_sum(sparse_matrix_t *L,  int *pcm_matrix,
         }
         else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
-        printf("\n");
+        printf("\n");*/
         //------------------------------------------
     }
 }
 
-void compute_row_operations(sparse_matrix_t *L,  int *non_zero, 
+void compute_row_operations(sparse_matrix_t *L, 
                             int* syndrome, int size_checks, int size_vnode)
 {
 
@@ -152,7 +152,7 @@ void compute_row_operations(sparse_matrix_t *L,  int *non_zero,
     }
 }
 
-void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
+void compute_col_operations(sparse_matrix_t *L,
                             int* syndrome, int size_checks, int size_vnode, double alpha, 
                             double Lj[CHECK], double sum[VNODES])
 {
@@ -191,7 +191,7 @@ void compute_col_operations(sparse_matrix_t *L,  int *non_zero,
 
 }
 
-int main() {
+/*int main() {
     double *L;//[CHECK][VNODES];
     L = (double*)malloc(CHECK*VNODES*sizeof(double));
     int *pcm_matrix;//[CHECK][VNODES];
@@ -284,10 +284,10 @@ int main() {
 
     int error_computed[CHECK];
 
-    min_sum(L_sparse, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it, &error_computed[0]);
+    min_sum(L_sparse, syndrome, rows, cols, Lj, alpha, num_it, &error_computed[0]);
     
     return 0;
-}
+}*/
 
 void csr_to_csc(sparse_matrix_t *L){
     for(int i = 0; i < L->nnz; i++){
@@ -367,14 +367,14 @@ void to_sparse_matrix_t(double *L, sparse_matrix_t *out, int *pcm) {
         }
     }
 
-    for(int i = 0; i < nnz; i++){
+    /*for(int i = 0; i < nnz; i++){
         printf("%d ", out->edges[i]);
     }
-    printf("\n");
+    printf("\n");*/
     free(col_counts);
 }
 
-void show_matrix( double *matrix, int *non_zero,
+/*void show_matrix( double *matrix, int *non_zero,
                   int rows,  int cols)
 {
     for(int i = 0; i < rows; i++){
@@ -392,4 +392,4 @@ void show_matrix( double *matrix, int *non_zero,
         printf("\n");
     }
     printf("\n");
-}
+}*/
