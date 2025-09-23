@@ -103,7 +103,7 @@ void compute_row_operations(sparse_matrix_t *L,
 {
 
     for(int i = 0; i < CHECK; i++){
-        //if(i == size_checks) break;
+        if(i == size_checks) break;
 
         double min1 = DBL_MAX, min2 = DBL_MAX;
         int minpos = -1;
@@ -158,7 +158,7 @@ void compute_col_operations(sparse_matrix_t *L,
 {
     
     for (int j = 0; j < VNODES; j++){
-        //if (j == size_vnode) break;
+        if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
         double sum_aux = 0.0f;
@@ -191,7 +191,7 @@ void compute_col_operations(sparse_matrix_t *L,
 
 }
 
-/*int main() {
+int main() {
     double *L;//[CHECK][VNODES];
     L = (double*)malloc(CHECK*VNODES*sizeof(double));
     int *pcm_matrix;//[CHECK][VNODES];
@@ -287,7 +287,7 @@ void compute_col_operations(sparse_matrix_t *L,
     min_sum(L_sparse, syndrome, rows, cols, Lj, alpha, num_it, &error_computed[0]);
     
     return 0;
-}*/
+}
 
 void csr_to_csc(sparse_matrix_t *L){
     for(int i = 0; i < L->nnz; i++){

@@ -26,15 +26,15 @@ if __name__ == "__main__":
     show_prints = False
     
     # List of codes to test in this example is the [[72, 12 ,6]] from https://www.nature.com/articles/s41586-024-07107-7
-    codesConfig = ["72"]
+    codesConfig = ["144"]
     
     # Number of Monte Carlo trials for physical error rates
     exp = 4
-    NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp,10**exp,10**exp,10**exp,10**exp,10**exp]  
+    NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp] 
     
     # Physical error rate that is simulated
     
-    ps = np.linspace(0.001, 0.01, num=10)  
+    ps = np.linspace(0.001, 0.005, num=5)  
     
     print(ps)
     
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         pcm = sparse.csc_matrix(code.hx, dtype=np.uint8)    
                 
         # Code distance
-        d = 6
+        d = 12
  
      
 
@@ -274,4 +274,4 @@ plt.legend()
 plt.tight_layout()
 
 # Guardar en PNG
-plt.savefig("logical_vs_physical_2.png", dpi=300)
+plt.savefig("logical_vs_physical_3.png", dpi=300)

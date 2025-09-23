@@ -93,4 +93,13 @@ cdef class SparseMatrixWrapper:
     def __cinit__(self):
         # se inicializa a cero por seguridad
         self.mat = <sparse_matrix_t*>malloc(sizeof(sparse_matrix_t))
-        
+    
+    @property
+    def values_csc(self):
+        cdef int nnz = self.mat.nnz
+        return np.array(self.mat.values_csc, copy=True)
+    
+    @property
+    def values_csr(self):
+        cdef int nnz = self.mat.nnz
+        return np.array(self.mat.values_csr, copy=True)
