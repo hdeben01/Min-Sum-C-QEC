@@ -277,10 +277,10 @@ int main() {
         fclose(file);
         return 1;
     }
-    printf("Max Iterations: %d\n\n", num_it);
+    //printf("Max Iterations: %d\n\n", num_it);
 
-    printf("Initial L Matrix:\n");
-    show_matrix(L, pcm_matrix, rows, cols);
+    //printf("Initial L Matrix:\n");
+    //show_matrix(L, pcm_matrix, rows, cols);
 
     int error_computed[CHECK];
 

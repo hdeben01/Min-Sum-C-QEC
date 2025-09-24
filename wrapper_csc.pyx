@@ -97,9 +97,28 @@ cdef class SparseMatrixWrapper:
     @property
     def values_csc(self):
         cdef int nnz = self.mat.nnz
-        return np.array(self.mat.values_csc, copy=True)
+        cdef double[:] values_csc_view = <double[:nnz]> self.mat.values_csc
+        return np.asarray(values_csc_view, copy=True)
     
     @property
     def values_csr(self):
         cdef int nnz = self.mat.nnz
-        return np.array(self.mat.values_csr, copy=True)
+        cdef double[:] values_csr_view =  <double[:nnz]>self.mat.values_csr
+        return np.asarray(values_csr_view, copy=True)
+    
+    
+    def set_values_csc(self, values):
+        cdef int nnz = self.mat.nnz
+        if values.size != nnz:
+            raise ValueError("Size of input array must match number of non-zero elements")
+        cdef double[::1] values_array = values
+        for i in range(nnz):
+            self.mat.values_csc[i] = values_array[i]
+    
+    def set_values_csr(self, values):
+        cdef int nnz = self.mat.nnz
+        if values.size != nnz:
+            raise ValueError("Size of input array must match number of non-zero elements")
+        cdef double[::1] values_array = values
+        for i in range(nnz):
+            self.mat.values_csr[i] = values_array[i]

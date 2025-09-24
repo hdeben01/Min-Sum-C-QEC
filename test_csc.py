@@ -29,7 +29,7 @@ if __name__ == "__main__":
     codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 4
+    exp = 1
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
@@ -117,7 +117,7 @@ if __name__ == "__main__":
                 
         # Code distance
         d = 6
- 
+        num_iterations = 1
      
 
         # {3: []}
@@ -165,7 +165,7 @@ if __name__ == "__main__":
             # For more information about the parameters and the possible values you can visit:
             # https://software.roffe.eu/ldpc/quantum_decoder.html           
             print(channel_probs)    
-            _bp = BpDecoder(pcm, max_iter=100, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
+            _bp = BpDecoder(pcm, max_iter=num_iterations, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
             #_bposd = BpOsdDecoder(pcm, max_iter=100, error_rate=float(p), bp_method="minimum_sum", schedule = 'parallel', osd_method="osd_0")
 
             #-------------Código adicional para probar la librería------------
@@ -192,7 +192,7 @@ if __name__ == "__main__":
             L_flat = np.ascontiguousarray(L_dense.ravel(),dtype=np.double)
             #-------------------------------------------------------------------
 
-            sm = init_sparse_matrix_t(L_flat,pcm_flat)
+            #sm = init_sparse_matrix_t(L_flat,pcm_flat)
 
             # Start the Montecarlo simulations
             for iteration in range(NMCs[index]):
@@ -224,9 +224,19 @@ if __name__ == "__main__":
                 
                 a = time.time()
                 #predicted_errors_osd = _bposd.decode(detectors[0])
+                values_csc = np.zeros(pcm.nnz, dtype=np.double)
+                values_csr = np.zeros(pcm.nnz, dtype=np.double)
                 
-                L_array = compute_min_sum_wrapper(sm, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
-                                                   Lj.astype(np.double), alpha, 100, error_computed)
+                for j in range(num_iterations):
+                    sm = init_sparse_matrix_t(L_flat,pcm_flat)
+                    sm.set_values_csc(values_csc)
+                    sm.set_values_csr(values_csr)
+                    L_array = compute_min_sum_wrapper(sm, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
+                                                    Lj.astype(np.double), alpha, 1, error_computed)
+                    values_csc = sm.values_csc
+                    values_csr = sm.values_csr
+                    print("values_csc\n", values_csc)
+                    print("values_csr\n", values_csr)
                 
                 b = time.time()
                 time_av_BPOSD += (b - a) / NMCs[index]

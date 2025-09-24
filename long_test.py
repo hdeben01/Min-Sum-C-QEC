@@ -26,10 +26,10 @@ if __name__ == "__main__":
     show_prints = False
     
     # List of codes to test in this example is the [[72, 12 ,6]] from https://www.nature.com/articles/s41586-024-07107-7
-    codesConfig = ["144"]
+    codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 4
+    exp = 3
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp] 
     
     # Physical error rate that is simulated
@@ -116,7 +116,8 @@ if __name__ == "__main__":
         pcm = sparse.csc_matrix(code.hx, dtype=np.uint8)    
                 
         # Code distance
-        d = 12
+        d = 6
+        num_iterations = 100
  
      
 
@@ -165,7 +166,7 @@ if __name__ == "__main__":
             # For more information about the parameters and the possible values you can visit:
             # https://software.roffe.eu/ldpc/quantum_decoder.html           
             print(channel_probs)    
-            _bp = BpDecoder(pcm, max_iter=100, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
+            _bp = BpDecoder(pcm, max_iter=num_iterations, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
             #_bposd = BpOsdDecoder(pcm, max_iter=100, error_rate=float(p), bp_method="minimum_sum", schedule = 'parallel', osd_method="osd_0")
 
             #-------------Código adicional para probar la librería------------
@@ -222,9 +223,10 @@ if __name__ == "__main__":
                 
                 a = time.time()
                 #predicted_errors_osd = _bposd.decode(detectors[0])
+             
                 
                 L_array = compute_min_sum_wrapper(L_flat, pcm_flat, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
-                                                   Lj.astype(np.double), alpha, 100, error_computed)
+                                                Lj.astype(np.double), alpha, num_iterations, error_computed)
                 
                 b = time.time()
                 time_av_BPOSD += (b - a) / NMCs[index]
