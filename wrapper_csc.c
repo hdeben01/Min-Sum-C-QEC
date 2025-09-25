@@ -3100,6 +3100,7 @@ static PyObject *__pyx_pf_11wrapper_csc_2init_sparse_matrix_t(CYTHON_UNUSED PyOb
 static int __pyx_pf_11wrapper_csc_19SparseMatrixWrapper___cinit__(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_10values_csc___get__(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_10values_csr___get__(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_3nnz___get__(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self, PyObject *__pyx_v_values); /* proto */
 static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self, PyObject *__pyx_v_values); /* proto */
 static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_6__reduce_cython__(CYTHON_UNUSED struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self); /* proto */
@@ -18178,7 +18179,7 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_10values_csr___get
  *         cdef double[:] values_csr_view =  <double[:nnz]>self.mat.values_csr
  *         return np.asarray(values_csr_view, copy=True)             # <<<<<<<<<<<<<<
  * 
- * 
+ *     @property
 */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_4 = NULL;
@@ -18244,7 +18245,72 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_10values_csr___get
   return __pyx_r;
 }
 
-/* "wrapper_csc.pyx":110
+/* "wrapper_csc.pyx":109
+ *         return np.asarray(values_csr_view, copy=True)
+ * 
+ *     @property             # <<<<<<<<<<<<<<
+ *     def nnz(self):
+ *         return self.mat.nnz
+*/
+
+/* Python wrapper */
+static PyObject *__pyx_pw_11wrapper_csc_19SparseMatrixWrapper_3nnz_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_11wrapper_csc_19SparseMatrixWrapper_3nnz_1__get__(PyObject *__pyx_v_self) {
+  CYTHON_UNUSED PyObject *const *__pyx_kwvalues;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_kwvalues = __Pyx_KwValues_VARARGS(__pyx_args, __pyx_nargs);
+  __pyx_r = __pyx_pf_11wrapper_csc_19SparseMatrixWrapper_3nnz___get__(((struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_3nnz___get__(struct __pyx_obj_11wrapper_csc_SparseMatrixWrapper *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("__get__", 0);
+
+  /* "wrapper_csc.pyx":111
+ *     @property
+ *     def nnz(self):
+ *         return self.mat.nnz             # <<<<<<<<<<<<<<
+ * 
+ * 
+*/
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyLong_From_int(__pyx_v_self->mat->nnz); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "wrapper_csc.pyx":109
+ *         return np.asarray(values_csr_view, copy=True)
+ * 
+ *     @property             # <<<<<<<<<<<<<<
+ *     def nnz(self):
+ *         return self.mat.nnz
+*/
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("wrapper_csc.SparseMatrixWrapper.nnz.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "wrapper_csc.pyx":114
  * 
  * 
  *     def set_values_csc(self, values):             # <<<<<<<<<<<<<<
@@ -18291,32 +18357,32 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_values,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 110, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 114, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 110, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 114, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "set_values_csc", 0) < 0) __PYX_ERR(0, 110, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "set_values_csc", 0) < 0) __PYX_ERR(0, 114, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 1; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("set_values_csc", 1, 1, 1, i); __PYX_ERR(0, 110, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("set_values_csc", 1, 1, 1, i); __PYX_ERR(0, 114, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 110, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 114, __pyx_L3_error)
     }
     __pyx_v_values = values[0];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_values_csc", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 110, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_values_csc", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 114, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -18359,7 +18425,7 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_values_csc", 0);
 
-  /* "wrapper_csc.pyx":111
+  /* "wrapper_csc.pyx":115
  * 
  *     def set_values_csc(self, values):
  *         cdef int nnz = self.mat.nnz             # <<<<<<<<<<<<<<
@@ -18369,25 +18435,25 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
   __pyx_t_1 = __pyx_v_self->mat->nnz;
   __pyx_v_nnz = __pyx_t_1;
 
-  /* "wrapper_csc.pyx":112
+  /* "wrapper_csc.pyx":116
  *     def set_values_csc(self, values):
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:             # <<<<<<<<<<<<<<
  *             raise ValueError("Size of input array must match number of non-zero elements")
  *         cdef double[::1] values_array = values
 */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_mstate_global->__pyx_n_u_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_mstate_global->__pyx_n_u_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyLong_From_int(__pyx_v_nnz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyLong_From_int(__pyx_v_nnz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 112, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 116, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_5)) {
 
-    /* "wrapper_csc.pyx":113
+    /* "wrapper_csc.pyx":117
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:
  *             raise ValueError("Size of input array must match number of non-zero elements")             # <<<<<<<<<<<<<<
@@ -18403,14 +18469,14 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
       __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+__pyx_t_6, (2-__pyx_t_6) | (__pyx_t_6*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 113, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 117, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
     }
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 113, __pyx_L1_error)
+    __PYX_ERR(0, 117, __pyx_L1_error)
 
-    /* "wrapper_csc.pyx":112
+    /* "wrapper_csc.pyx":116
  *     def set_values_csc(self, values):
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:             # <<<<<<<<<<<<<<
@@ -18419,19 +18485,19 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
 */
   }
 
-  /* "wrapper_csc.pyx":114
+  /* "wrapper_csc.pyx":118
  *         if values.size != nnz:
  *             raise ValueError("Size of input array must match number of non-zero elements")
  *         cdef double[::1] values_array = values             # <<<<<<<<<<<<<<
  *         for i in range(nnz):
  *             self.mat.values_csc[i] = values_array[i]
 */
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_values, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 114, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_values, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 118, __pyx_L1_error)
   __pyx_v_values_array = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "wrapper_csc.pyx":115
+  /* "wrapper_csc.pyx":119
  *             raise ValueError("Size of input array must match number of non-zero elements")
  *         cdef double[::1] values_array = values
  *         for i in range(nnz):             # <<<<<<<<<<<<<<
@@ -18443,7 +18509,7 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "wrapper_csc.pyx":116
+    /* "wrapper_csc.pyx":120
  *         cdef double[::1] values_array = values
  *         for i in range(nnz):
  *             self.mat.values_csc[i] = values_array[i]             # <<<<<<<<<<<<<<
@@ -18458,12 +18524,12 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
     } else if (unlikely(__pyx_t_10 >= __pyx_v_values_array.shape[0])) __pyx_t_11 = 0;
     if (unlikely(__pyx_t_11 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
-      __PYX_ERR(0, 116, __pyx_L1_error)
+      __PYX_ERR(0, 120, __pyx_L1_error)
     }
     (__pyx_v_self->mat->values_csc[__pyx_v_i]) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_values_array.data) + __pyx_t_10)) )));
   }
 
-  /* "wrapper_csc.pyx":110
+  /* "wrapper_csc.pyx":114
  * 
  * 
  *     def set_values_csc(self, values):             # <<<<<<<<<<<<<<
@@ -18488,7 +18554,7 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_2set_values_csc(st
   return __pyx_r;
 }
 
-/* "wrapper_csc.pyx":118
+/* "wrapper_csc.pyx":122
  *             self.mat.values_csc[i] = values_array[i]
  * 
  *     def set_values_csr(self, values):             # <<<<<<<<<<<<<<
@@ -18535,32 +18601,32 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
   {
     PyObject ** const __pyx_pyargnames[] = {&__pyx_mstate_global->__pyx_n_u_values,0};
     const Py_ssize_t __pyx_kwds_len = (__pyx_kwds) ? __Pyx_NumKwargs_FASTCALL(__pyx_kwds) : 0;
-    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 118, __pyx_L3_error)
+    if (unlikely(__pyx_kwds_len) < 0) __PYX_ERR(0, 122, __pyx_L3_error)
     if (__pyx_kwds_len > 0) {
       switch (__pyx_nargs) {
         case  1:
         values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 118, __pyx_L3_error)
+        if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 122, __pyx_L3_error)
         CYTHON_FALLTHROUGH;
         case  0: break;
         default: goto __pyx_L5_argtuple_error;
       }
       const Py_ssize_t kwd_pos_args = __pyx_nargs;
-      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "set_values_csr", 0) < 0) __PYX_ERR(0, 118, __pyx_L3_error)
+      if (__Pyx_ParseKeywords(__pyx_kwds, __pyx_kwvalues, __pyx_pyargnames, 0, values, kwd_pos_args, __pyx_kwds_len, "set_values_csr", 0) < 0) __PYX_ERR(0, 122, __pyx_L3_error)
       for (Py_ssize_t i = __pyx_nargs; i < 1; i++) {
-        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("set_values_csr", 1, 1, 1, i); __PYX_ERR(0, 118, __pyx_L3_error) }
+        if (unlikely(!values[i])) { __Pyx_RaiseArgtupleInvalid("set_values_csr", 1, 1, 1, i); __PYX_ERR(0, 122, __pyx_L3_error) }
       }
     } else if (unlikely(__pyx_nargs != 1)) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = __Pyx_ArgRef_FASTCALL(__pyx_args, 0);
-      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 118, __pyx_L3_error)
+      if (!CYTHON_ASSUME_SAFE_MACROS && unlikely(!values[0])) __PYX_ERR(0, 122, __pyx_L3_error)
     }
     __pyx_v_values = values[0];
   }
   goto __pyx_L6_skip;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_values_csr", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 118, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_values_csr", 1, 1, 1, __pyx_nargs); __PYX_ERR(0, 122, __pyx_L3_error)
   __pyx_L6_skip:;
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -18603,7 +18669,7 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(st
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("set_values_csr", 0);
 
-  /* "wrapper_csc.pyx":119
+  /* "wrapper_csc.pyx":123
  * 
  *     def set_values_csr(self, values):
  *         cdef int nnz = self.mat.nnz             # <<<<<<<<<<<<<<
@@ -18613,25 +18679,25 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(st
   __pyx_t_1 = __pyx_v_self->mat->nnz;
   __pyx_v_nnz = __pyx_t_1;
 
-  /* "wrapper_csc.pyx":120
+  /* "wrapper_csc.pyx":124
  *     def set_values_csr(self, values):
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:             # <<<<<<<<<<<<<<
  *             raise ValueError("Size of input array must match number of non-zero elements")
  *         cdef double[::1] values_array = values
 */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_mstate_global->__pyx_n_u_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_mstate_global->__pyx_n_u_size); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyLong_From_int(__pyx_v_nnz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyLong_From_int(__pyx_v_nnz); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_4 = PyObject_RichCompare(__pyx_t_2, __pyx_t_3, Py_NE); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_5 < 0))) __PYX_ERR(0, 124, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   if (unlikely(__pyx_t_5)) {
 
-    /* "wrapper_csc.pyx":121
+    /* "wrapper_csc.pyx":125
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:
  *             raise ValueError("Size of input array must match number of non-zero elements")             # <<<<<<<<<<<<<<
@@ -18647,14 +18713,14 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(st
       __pyx_t_4 = __Pyx_PyObject_FastCall(__pyx_t_2, __pyx_callargs+__pyx_t_6, (2-__pyx_t_6) | (__pyx_t_6*__Pyx_PY_VECTORCALL_ARGUMENTS_OFFSET));
       __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 121, __pyx_L1_error)
+      if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 125, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
     }
     __Pyx_Raise(__pyx_t_4, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(0, 121, __pyx_L1_error)
+    __PYX_ERR(0, 125, __pyx_L1_error)
 
-    /* "wrapper_csc.pyx":120
+    /* "wrapper_csc.pyx":124
  *     def set_values_csr(self, values):
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:             # <<<<<<<<<<<<<<
@@ -18663,19 +18729,19 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(st
 */
   }
 
-  /* "wrapper_csc.pyx":122
+  /* "wrapper_csc.pyx":126
  *         if values.size != nnz:
  *             raise ValueError("Size of input array must match number of non-zero elements")
  *         cdef double[::1] values_array = values             # <<<<<<<<<<<<<<
  *         for i in range(nnz):
  *             self.mat.values_csr[i] = values_array[i]
 */
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_values, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 122, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_v_values, PyBUF_WRITABLE); if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(0, 126, __pyx_L1_error)
   __pyx_v_values_array = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "wrapper_csc.pyx":123
+  /* "wrapper_csc.pyx":127
  *             raise ValueError("Size of input array must match number of non-zero elements")
  *         cdef double[::1] values_array = values
  *         for i in range(nnz):             # <<<<<<<<<<<<<<
@@ -18686,7 +18752,7 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(st
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_8; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "wrapper_csc.pyx":124
+    /* "wrapper_csc.pyx":128
  *         cdef double[::1] values_array = values
  *         for i in range(nnz):
  *             self.mat.values_csr[i] = values_array[i]             # <<<<<<<<<<<<<<
@@ -18699,12 +18765,12 @@ static PyObject *__pyx_pf_11wrapper_csc_19SparseMatrixWrapper_4set_values_csr(st
     } else if (unlikely(__pyx_t_10 >= __pyx_v_values_array.shape[0])) __pyx_t_11 = 0;
     if (unlikely(__pyx_t_11 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_11);
-      __PYX_ERR(0, 124, __pyx_L1_error)
+      __PYX_ERR(0, 128, __pyx_L1_error)
     }
     (__pyx_v_self->mat->values_csr[__pyx_v_i]) = (*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_values_array.data) + __pyx_t_10)) )));
   }
 
-  /* "wrapper_csc.pyx":118
+  /* "wrapper_csc.pyx":122
  *             self.mat.values_csc[i] = values_array[i]
  * 
  *     def set_values_csr(self, values):             # <<<<<<<<<<<<<<
@@ -18980,6 +19046,10 @@ static PyObject *__pyx_getprop_11wrapper_csc_19SparseMatrixWrapper_values_csr(Py
   return __pyx_pw_11wrapper_csc_19SparseMatrixWrapper_10values_csr_1__get__(o);
 }
 
+static PyObject *__pyx_getprop_11wrapper_csc_19SparseMatrixWrapper_nnz(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_11wrapper_csc_19SparseMatrixWrapper_3nnz_1__get__(o);
+}
+
 static PyMethodDef __pyx_methods_11wrapper_csc_SparseMatrixWrapper[] = {
   {"set_values_csc", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11wrapper_csc_19SparseMatrixWrapper_3set_values_csc, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
   {"set_values_csr", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11wrapper_csc_19SparseMatrixWrapper_5set_values_csr, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0},
@@ -18991,6 +19061,7 @@ static PyMethodDef __pyx_methods_11wrapper_csc_SparseMatrixWrapper[] = {
 static struct PyGetSetDef __pyx_getsets_11wrapper_csc_SparseMatrixWrapper[] = {
   {"values_csc", __pyx_getprop_11wrapper_csc_19SparseMatrixWrapper_values_csc, 0, 0, 0},
   {"values_csr", __pyx_getprop_11wrapper_csc_19SparseMatrixWrapper_values_csr, 0, 0, 0},
+  {"nnz", __pyx_getprop_11wrapper_csc_19SparseMatrixWrapper_nnz, 0, 0, 0},
   {0, 0, 0, 0, 0}
 };
 #if CYTHON_USE_TYPE_SPECS
@@ -21062,28 +21133,28 @@ __Pyx_RefNannySetupContext("PyInit_wrapper_csc", 0);
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_init_sparse_matrix_t, __pyx_t_5) < 0) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wrapper_csc.pyx":110
+  /* "wrapper_csc.pyx":114
  * 
  * 
  *     def set_values_csc(self, values):             # <<<<<<<<<<<<<<
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:
 */
-  __pyx_t_5 = __Pyx_CyFunction_New(&__pyx_mdef_11wrapper_csc_19SparseMatrixWrapper_3set_values_csc, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_SparseMatrixWrapper_set_values_c, NULL, __pyx_mstate_global->__pyx_n_u_wrapper_csc, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 110, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_New(&__pyx_mdef_11wrapper_csc_19SparseMatrixWrapper_3set_values_csc, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_SparseMatrixWrapper_set_values_c, NULL, __pyx_mstate_global->__pyx_n_u_wrapper_csc, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[2])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11wrapper_csc_SparseMatrixWrapper, __pyx_mstate_global->__pyx_n_u_set_values_csc, __pyx_t_5) < 0) __PYX_ERR(0, 110, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11wrapper_csc_SparseMatrixWrapper, __pyx_mstate_global->__pyx_n_u_set_values_csc, __pyx_t_5) < 0) __PYX_ERR(0, 114, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "wrapper_csc.pyx":118
+  /* "wrapper_csc.pyx":122
  *             self.mat.values_csc[i] = values_array[i]
  * 
  *     def set_values_csr(self, values):             # <<<<<<<<<<<<<<
  *         cdef int nnz = self.mat.nnz
  *         if values.size != nnz:
 */
-  __pyx_t_5 = __Pyx_CyFunction_New(&__pyx_mdef_11wrapper_csc_19SparseMatrixWrapper_5set_values_csr, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_SparseMatrixWrapper_set_values_c_2, NULL, __pyx_mstate_global->__pyx_n_u_wrapper_csc, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_CyFunction_New(&__pyx_mdef_11wrapper_csc_19SparseMatrixWrapper_5set_values_csr, __Pyx_CYFUNCTION_CCLASS, __pyx_mstate_global->__pyx_n_u_SparseMatrixWrapper_set_values_c_2, NULL, __pyx_mstate_global->__pyx_n_u_wrapper_csc, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[3])); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11wrapper_csc_SparseMatrixWrapper, __pyx_mstate_global->__pyx_n_u_set_values_csr, __pyx_t_5) < 0) __PYX_ERR(0, 118, __pyx_L1_error)
+  if (__Pyx_SetItemOnTypeDict(__pyx_mstate_global->__pyx_ptype_11wrapper_csc_SparseMatrixWrapper, __pyx_mstate_global->__pyx_n_u_set_values_csr, __pyx_t_5) < 0) __PYX_ERR(0, 122, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "(tree fragment)":1
@@ -21354,8 +21425,8 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry const *t, PyObject **target, c
 
 static int __Pyx_InitCachedBuiltins(__pyx_mstatetype *__pyx_mstate) {
   CYTHON_UNUSED_VAR(__pyx_mstate);
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 113, __pyx_L1_error)
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_range); if (!__pyx_builtin_range) __PYX_ERR(0, 115, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(0, 117, __pyx_L1_error)
+  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_range); if (!__pyx_builtin_range) __PYX_ERR(0, 119, __pyx_L1_error)
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(1, 2, __pyx_L1_error)
   __pyx_builtin___import__ = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_import); if (!__pyx_builtin___import__) __PYX_ERR(1, 101, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_mstate->__pyx_n_u_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(1, 154, __pyx_L1_error)
@@ -21469,12 +21540,12 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
     __pyx_mstate_global->__pyx_codeobj_tab[1] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_wrapper_csc_pyx, __pyx_mstate->__pyx_n_u_init_sparse_matrix_t, __pyx_k_t1F_B_F_A_t3fA_b_5_b_q_a_A_aq_q, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[1])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 110, 64};
+    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 114, 64};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_values, __pyx_mstate->__pyx_n_u_nnz, __pyx_mstate->__pyx_n_u_values_array, __pyx_mstate->__pyx_n_u_i};
     __pyx_mstate_global->__pyx_codeobj_tab[2] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_wrapper_csc_pyx, __pyx_mstate->__pyx_n_u_set_values_csc, __pyx_k_A_t4q_6_s_AQ_E_aq_Kq, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[2])) goto bad;
   }
   {
-    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 118, 64};
+    const __Pyx_PyCode_New_function_description descr = {2, 0, 0, 5, (unsigned int)(CO_OPTIMIZED|CO_NEWLOCALS), 122, 64};
     PyObject* const varnames[] = {__pyx_mstate->__pyx_n_u_self, __pyx_mstate->__pyx_n_u_values, __pyx_mstate->__pyx_n_u_nnz, __pyx_mstate->__pyx_n_u_values_array, __pyx_mstate->__pyx_n_u_i};
     __pyx_mstate_global->__pyx_codeobj_tab[3] = __Pyx_PyCode_New(descr, varnames, __pyx_mstate->__pyx_kp_u_wrapper_csc_pyx, __pyx_mstate->__pyx_n_u_set_values_csr, __pyx_k_A_t4q_6_s_AQ_E_aq_Kq, tuple_dedup_map); if (unlikely(!__pyx_mstate_global->__pyx_codeobj_tab[3])) goto bad;
   }

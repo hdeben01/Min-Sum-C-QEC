@@ -23,7 +23,6 @@ void min_sum(double *L,  int *pcm_matrix,
         //printf("\tL matrix after col ops:\n");
         //show_matrix(L, pcm_matrix, size_checks, size_vnode);
 
-
         // Correct syndrome from the values of the codeword
         // if >= 0 then bit j = 0
         // if < 0  then bit j = 1 
@@ -156,7 +155,7 @@ void compute_col_operations(double *L,  int *non_zero,
 
 }
 
-/*int main() {
+int main() {
     double *L;//[CHECK][VNODES];
     L = (double*)malloc(CHECK*VNODES*sizeof(double));
     int *pcm_matrix;//[CHECK][VNODES];
@@ -175,7 +174,7 @@ void compute_col_operations(double *L,  int *non_zero,
             fclose(file);
             return 1;
     }
-    p = (1.0f - (2.0f/3.0f) * p);
+    p = 1.0;
 
 
     // Read rows and cols
@@ -197,7 +196,7 @@ void compute_col_operations(double *L,  int *non_zero,
             }
             pcm_matrix[i * VNODES + j] = value;
             if(value == 1){
-                L[i * VNODES + j] = p;
+                L[i * VNODES + j] = 0;
             }else{
                 L[i * VNODES + j] = 0;
             }
@@ -256,15 +255,15 @@ void show_matrix( double *matrix, int *non_zero,
         printf("\t");
         for(int j = 0; j < cols; j++){
             if(signbit(matrix[i * VNODES + j])) {
-                if (non_zero[i * VNODES + j]) color_printf(YELLOW, " %.6f", matrix[i * VNODES + j]);
+                if (non_zero[i * VNODES + j]) color_printf(YELLOW," %.6f", matrix[i * VNODES + j]);
                 else printf(" %.6f", matrix[i * VNODES + j]);
             }
             else {
-                if (non_zero[i * VNODES + j]) color_printf(YELLOW, "  %.6f", matrix[i * VNODES + j]);
+                if (non_zero[i * VNODES + j]) color_printf(YELLOW,"  %.6f", matrix[i * VNODES + j]);
                 else printf("  %.6f", matrix[i * VNODES + j]);
             }
         }
         printf("\n");
     }
     printf("\n");
-}*/
+}

@@ -31,7 +31,7 @@ cdef extern from "min_sum.h":
 
 
 #in order to use the wrapper is necessary to flatten the matrices first
-def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it,error_computed):
+def compute_min_sum_wrapper_whole_matrix(L,non_zero,syndrome,size_checks,size_vnodes,priors,alpha,num_it,error_computed):
     if not L.flags.c_contiguous:
         L = np.ascontiguousarray(L)
     if not non_zero.flags.c_contiguous:
@@ -46,4 +46,4 @@ def compute_min_sum_wrapper(L,non_zero,syndrome,size_checks,size_vnodes,priors,a
 
 
     min_sum(&L_array[0], &non_zero_array[0],&syndrome_array[0], size_checks, size_vnodes, &priors_array[0],alpha,num_it, &error_computed_array[0])
-    return L_array, error_computed_array
+    return np.asarray(L_array, copy=True), error_computed_array

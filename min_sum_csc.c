@@ -54,6 +54,12 @@ void min_sum(sparse_matrix_t *L,
             printf("%lf ",sum[j]);
         }
         printf("\n");*/
+
+        //printf("\tcsr values computed: ");
+        for(int j = 0; j < L->nnz; j++){
+            //printf("%lf ",L->values_csr[j]);
+        }
+        //printf("\n");
         //------------------------------------------
 
         // Compute S = eH^T
@@ -79,21 +85,21 @@ void min_sum(sparse_matrix_t *L,
             
         }
         printf("\n");
-        
-        printf("\tResulting syndrome: ");
+        */
+        //printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            printf("%d ",resulting_syndrome[i]);
+            //printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-        printf("\n");
+        //printf("\n");
 
-        if(error_found) {
+        /*if(error_found) {
             color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
         else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
-        printf("\n");*/
+        //printf("\n");*/
         //------------------------------------------
     }
 }
@@ -148,7 +154,8 @@ void compute_row_operations(sparse_matrix_t *L,
         }
 
         // Assigning min2 to minpos
-        L->values_csr[minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
+        if(row_end_index - start > 0)
+            L->values_csr[minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
     }
 }
 
@@ -168,9 +175,11 @@ void compute_col_operations(sparse_matrix_t *L,
             //if (i == size_checks) break;
 
             sum_aux += L->values_csc[i];
-            
+
+        
         }
-        sum[j] = Lj[j] + (alpha * sum_aux);
+        if(col_end_index - start > 0)
+            sum[j] = Lj[j] + (alpha * sum_aux);
     }
 
     //columnn iteration
@@ -178,7 +187,6 @@ void compute_col_operations(sparse_matrix_t *L,
         //if (j == size_vnode) break;
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
-        double sum_aux = 0.0f;
         int start = L->offset_cols[j];
         int col_end_index = L->offset_cols[j + 1];
         for(int i = start; i < col_end_index; i++){

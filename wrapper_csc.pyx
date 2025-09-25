@@ -106,6 +106,10 @@ cdef class SparseMatrixWrapper:
         cdef double[:] values_csr_view =  <double[:nnz]>self.mat.values_csr
         return np.asarray(values_csr_view, copy=True)
     
+    @property
+    def nnz(self):
+        return self.mat.nnz
+    
     
     def set_values_csc(self, values):
         cdef int nnz = self.mat.nnz

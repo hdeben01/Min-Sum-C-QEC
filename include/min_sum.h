@@ -1,10 +1,10 @@
 #pragma once
 
 #ifndef VNODES
-#define VNODES 8784
+#define VNODES 2232
 #endif
 #ifndef CHECK 
-#define CHECK 936
+#define CHECK 252
 #endif
 
 #ifndef COLORS_H
