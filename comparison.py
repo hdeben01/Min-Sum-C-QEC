@@ -30,7 +30,7 @@ if __name__ == "__main__":
     codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 5
+    exp = 3
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
@@ -229,28 +229,28 @@ if __name__ == "__main__":
                 #predicted_errors_osd = _bposd.decode(detectors[0])
                 
                 
-                for j in range(num_iterations):
+                for j in range(num_iterations + 1):
                     
                     L_array = compute_min_sum_wrapper(sm, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
                                                     Lj.astype(np.double), alpha, 1, error_computed)
                     
-                    #L_whole_array = compute_min_sum_wrapper_whole_matrix(L_flat, pcm_flat, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
-                     #                           Lj.astype(np.double), alpha, 1, error_computed)
+                    L_whole_array = compute_min_sum_wrapper_whole_matrix(L_flat, pcm_flat, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
+                                                Lj.astype(np.double), alpha, 1, error_computed)
                    
-                    #values_csr = L_array[0].values_csr
+                    values_csr = L_array[0].values_csr
                     #print("values_csc\n", values_csc)
-                    #print("values_csr\n", values_csr)
-                    #print("values_whole_matrix\n",L_whole_array[0])
+                    print("values_csr\n", values_csr)
+                    print("values_whole_matrix\n",L_whole_array[0])
                     index_csr = 0
-                    #for i in range(pcm.shape[0]):
-                        #for j in range (pcm.shape[1]):
+                    for i in range(pcm.shape[0]):
+                        for z in range (pcm.shape[1]):
                            
-                         #   elem = L_whole_array[0][i * pcm.shape[1] + j]
-                          #  if not np.isclose(elem,0.0):
-                            #    if values_csr[index_csr] != elem:
-                             #       pass
-                                    #print("diferencia en elem",index_csr,"con valor",values_csr[index_csr] - elem)
-                              #  index_csr += 1
+                            elem = L_whole_array[0][i * pcm.shape[1] + z]
+                            if not np.isclose(elem,0.0):
+                                if values_csr[index_csr] != elem:
+                                   
+                                    print("diferencia en elem",index_csr,"con valor",values_csr[index_csr] - elem)
+                                index_csr += 1
 
                 
                 b = time.time()

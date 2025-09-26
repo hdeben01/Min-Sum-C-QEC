@@ -93,11 +93,11 @@ void min_sum(sparse_matrix_t *L,
         }
         //printf("\n");
 
-        /*if(error_found) {
-            color_printf(GREEN, "\tERROR FOUND\n");
+        if(error_found) {
+            //color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
-        else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
+        //else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
 
         //printf("\n");*/
         //------------------------------------------

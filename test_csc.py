@@ -29,7 +29,7 @@ if __name__ == "__main__":
     codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 4
+    exp = 5
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
@@ -256,6 +256,7 @@ if __name__ == "__main__":
             print(f'Physical error: {p}')
             print(f'Logical error BP: {PlBP/d} with average time {time_av_BP} and max time {time_max_BP}')
             print(f'Error Wrapper_min_sum: {PlBPOSD/d} with average time {time_av_BPOSD} and max time {time_max_BPOSD}')
+            print(f'Time improvement: {(( time_av_BP - time_av_BPOSD)/ time_av_BP) * 100} raw time improvement: {time_av_BP - time_av_BPOSD}')
             print(f'-------------------------------------------------')
 
 
@@ -278,4 +279,4 @@ plt.legend()
 plt.tight_layout()
 
 # Guardar en PNG
-plt.savefig("logical_vs_physical_csc_1.png", dpi=300)
+plt.savefig("logical_vs_physical_csc_3.png", dpi=300)
