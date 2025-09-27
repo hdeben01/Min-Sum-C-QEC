@@ -1,0 +1,45 @@
+[0.001 0.002 0.003 0.004 0.005]
+[3] [1, 2]
+[1, 2] [3]
+Code: 144
+-------------------------------------------------
+parity check matrix (936, 8784)
+[0.00193118 0.00193118 0.0023296  ... 0.0010661  0.0010661  0.0010661 ]
+L_flat shape (936, 8784)
+Physical error: 0.001
+Logical error BP: 8.416666666666684e-05 with average time 0.0030406144809722703 and max time 0.03988814353942871
+Error Wrapper_min_sum: 9.250000000000019e-05 with average time 0.0020676415920257737 and max time 0.04137158393859863
+Time improvement: 31.999219073487335 raw time improvement: 0.0009729728889464966
+-------------------------------------------------
+parity check matrix (936, 8784)
+[0.00385807 0.00385807 0.00465175 ... 0.00213106 0.00213106 0.00213106]
+L_flat shape (936, 8784)
+Physical error: 0.002
+Logical error BP: 0.0010449999999999715 with average time 0.0056751704001426736 and max time 0.08921647071838379
+Error Wrapper_min_sum: 0.0011199999999999685 with average time 0.0038741026782989087 and max time 0.04493260383605957
+Time improvement: 31.73592323850727 raw time improvement: 0.0018010677218437648
+-------------------------------------------------
+parity check matrix (936, 8784)
+[0.00578065 0.00578065 0.00696646 ... 0.00319488 0.00319488 0.00319488]
+L_flat shape (936, 8784)
+Physical error: 0.003
+Logical error BP: 0.004954166666667295 with average time 0.012864762649536295 and max time 0.14138484001159668
+Error Wrapper_min_sum: 0.005129166666667348 with average time 0.0074089908337593305 and max time 0.08309745788574219
+Time improvement: 42.40864728253354 raw time improvement: 0.005455771815776964
+-------------------------------------------------
+parity check matrix (936, 8784)
+[0.00769895 0.00769895 0.00927375 ... 0.00425756 0.00425756 0.00425756]
+L_flat shape (936, 8784)
+Physical error: 0.004
+Logical error BP: 0.01610000000000437 with average time 0.01289180797815325 and max time 0.056725263595581055
+Error Wrapper_min_sum: 0.016409166666671346 with average time 0.0102291769647598 and max time 0.04781985282897949
+Time improvement: 20.653666405096978 raw time improvement: 0.00266263101339345
+-------------------------------------------------
+parity check matrix (936, 8784)
+[0.00961295 0.00961295 0.01157362 ... 0.00531911 0.00531911 0.00531911]
+L_flat shape (936, 8784)
+Physical error: 0.005
+Logical error BP: 0.03590083333335751 with average time 0.017883312747478477 and max time 0.060796499252319336
+Error Wrapper_min_sum: 0.03634166666669128 with average time 0.014246333246231046 and max time 0.042696475982666016
+Time improvement: 20.337280640356973 raw time improvement: 0.003636979501247431
+-------------------------------------------------
