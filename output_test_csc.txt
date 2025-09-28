@@ -9,7 +9,7 @@ L_flat shape (252, 2232)
 Physical error: 0.001
 Logical error BP: 7.833333333333343e-05 with average time 0.00047358231782911525 and max time 0.018858671188354492
 Error Wrapper_min_sum: 9.833333333333348e-05 with average time 0.0003612986373901174 and max time 0.012006998062133789
-Time improvement: 23.709432597420935 raw time improvement: 0.00011228368043899787
+Time improvement: 23.709432597420935% raw time improvement: 0.00011228368043899787
 -------------------------------------------------
 parity check matrix (252, 2232)
 [0.00385807 0.00385807 0.00465175 ... 0.00213106 0.00213106 0.00213106]
@@ -17,7 +17,7 @@ L_flat shape (252, 2232)
 Physical error: 0.002
 Logical error BP: 0.0010449999999999854 with average time 0.0007783457899093545 and max time 0.031327247619628906
 Error Wrapper_min_sum: 0.0011199999999999823 with average time 0.0005505358958244277 and max time 0.019091129302978516
-Time improvement: 29.268468724094642 raw time improvement: 0.0002278098940849268
+Time improvement: 29.268468724094642% raw time improvement: 0.0002278098940849268
 -------------------------------------------------
 parity check matrix (252, 2232)
 [0.00578065 0.00578065 0.00696646 ... 0.00319488 0.00319488 0.00319488]
@@ -25,7 +25,7 @@ L_flat shape (252, 2232)
 Physical error: 0.003
 Logical error BP: 0.0051916666666664835 with average time 0.0012743706655502505 and max time 0.07047581672668457
 Error Wrapper_min_sum: 0.0053716666666665325 with average time 0.0009284776306152391 and max time 0.09181427955627441
-Time improvement: 27.142262787857014 raw time improvement: 0.0003458930349350114
+Time improvement: 27.142262787857014% raw time improvement: 0.0003458930349350114
 -------------------------------------------------
 parity check matrix (252, 2232)
 [0.00769895 0.00769895 0.00927375 ... 0.00425756 0.00425756 0.00425756]
@@ -33,7 +33,7 @@ L_flat shape (252, 2232)
 Physical error: 0.004
 Logical error BP: 0.015209999999999552 with average time 0.001918728392124214 and max time 0.03795599937438965
 Error Wrapper_min_sum: 0.015536666666666093 with average time 0.001437640357017508 and max time 0.07507705688476562
-Time improvement: 25.073274418694346 raw time improvement: 0.0004810880351067059
+Time improvement: 25.073274418694346% raw time improvement: 0.0004810880351067059
 -------------------------------------------------
 parity check matrix (252, 2232)
 [0.00961295 0.00961295 0.01157362 ... 0.00531911 0.00531911 0.00531911]
@@ -41,5 +41,5 @@ L_flat shape (252, 2232)
 Physical error: 0.005
 Logical error BP: 0.03403666666667724 with average time 0.0028275221300124976 and max time 0.05375027656555176
 Error Wrapper_min_sum: 0.03422000000001076 with average time 0.0021162615084648058 and max time 0.041136741638183594
-Time improvement: 25.154909098608826 raw time improvement: 0.0007112606215476918
+Time improvement: 25.154909098608826% raw time improvement: 0.0007112606215476918
 -------------------------------------------------
