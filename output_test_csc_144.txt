@@ -26,7 +26,80 @@ Physical error: 0.003
 Logical error BP: 0.004954166666667295 with average time 0.012864762649536295 and max time 0.14138484001159668
 Error Wrapper_min_sum: 0.005129166666667348 with average time 0.0074089908337593305 and max time 0.08309745788574219
 Time improvement: 42.40864728253354 raw time improvement: 0.005455771815776964
--------------------------------------------------
+-------------------------------------------------1️⃣ Qué pide el cliente
+
+El cliente solicita la producción de figuras personalizadas o modelos específicos que no existen en el mercado o no están disponibles.
+Esto puede incluir:
+
+    Figuras de personajes de ficción, videojuegos o películas.
+
+    Prototipos de productos o piezas industriales.
+
+    Objetos personalizados según sus especificaciones (medidas, diseño, colores, materiales).
+
+El cliente espera recibir:
+
+    Un modelo 3D completamente diseñado según sus indicaciones.
+
+    La pieza física impresa en 3D, con el acabado y pintura de alta calidad.
+
+    Un producto listo para exposición, uso funcional o venta.
+
+2️⃣ Por qué concepto se le cobra
+
+Se pueden definir varios conceptos de cobro según el servicio ofrecido:
+
+    Diseño 3D
+
+        Creación del modelo digital desde cero, basado en las especificaciones del cliente.
+
+        Correcciones, revisiones y ajustes del modelo hasta que el cliente lo apruebe.
+
+    Impresión 3D
+
+        Materiales utilizados (resina, PLA, ABS, filamento especial, etc.).
+
+        Tiempo de impresión (depende del tamaño, complejidad y calidad).
+
+        Uso y depreciación de la impresora 3D.
+
+    Acabado y pintura
+
+        Lijado, limpieza, ensamblado de piezas si aplica.
+
+        Pintura a mano o con aerógrafo, según nivel de detalle.
+
+        Aplicación de selladores o barnices para proteger la figura.
+
+    Otros servicios opcionales
+
+        Envío y embalaje especial.
+
+        Modelos extra o copias adicionales.
+
+        Personalización adicional (texturas, accesorios, montaje).
+
+3️⃣ Modelo de negocio resumido
+
+Propuesta de valor:
+“Ofrecemos figuras y prototipos únicos, personalizados según tus ideas, que no se encuentran en el mercado, con acabado profesional y calidad garantizada.”
+
+Clientes objetivo:
+
+    Coleccionistas, aficionados a juegos, películas o cómics.
+
+    Empresas que necesitan prototipos o modelos industriales.
+
+    Educadores y diseñadores que buscan modelos únicos para demostraciones.
+
+Flujo de ingresos:
+
+    Precio por diseño 3D + impresión + pintura.
+
+    Posibles cargos extra por urgencia o materiales especiales.
+
+    Ventas de figuras adicionales o series limitadas.
+
 parity check matrix (936, 8784)
 [0.00769895 0.00769895 0.00927375 ... 0.00425756 0.00425756 0.00425756]
 L_flat shape (936, 8784)

@@ -4,6 +4,8 @@ from ldpc import __version__ as ldpc_version
 from ldpc import BpDecoder  
 from ldpc.bplsd_decoder import BpLsdDecoder
 from ldpc import BpOsdDecoder  
+import matplotlib.pyplot as plt
+from memory_profiler import profile
 
 import sys
 import os
@@ -21,7 +23,10 @@ from IBM_STIM import create_bivariate_bicycle_codes, build_circuit, select_confi
 
 
 
-if __name__ == "__main__":
+
+
+@profile
+def main():
 
     show_prints = False
     
@@ -193,12 +198,13 @@ if __name__ == "__main__":
             #-------------------------------------------------------------------
 
             sm = init_sparse_matrix_t(L_flat,pcm_flat)
+            sampler = circuit.compile_detector_sampler()
 
             # Start the Montecarlo simulations
             for iteration in range(NMCs[index]):
                 
                 # Take one sample of your quantum noise
-                sampler = circuit.compile_detector_sampler()
+                
                 num_shots = 1
                 
                 # Assuming this quantum noise obtain the detectors that we read from the quantum computer and store the logical state + the error (observables)
@@ -260,23 +266,26 @@ if __name__ == "__main__":
             print(f'-------------------------------------------------')
 
 
-import matplotlib.pyplot as plt
+    # Plot logical error rates vs physical error rates
+    plt.figure(figsize=(8,6))
 
-# Plot logical error rates vs physical error rates
-plt.figure(figsize=(8,6))
+    for codeConfig in codesConfig:
+        plt.plot(ps, PlsBP[codeConfig], marker="o", label=f"BP {codeConfig}")
+        plt.plot(ps, PlsBPOSD[codeConfig], marker="s", label=f"Min-Sum Wrapper {codeConfig}")
 
-for codeConfig in codesConfig:
-    plt.plot(ps, PlsBP[codeConfig], marker="o", label=f"BP {codeConfig}")
-    plt.plot(ps, PlsBPOSD[codeConfig], marker="s", label=f"Min-Sum Wrapper {codeConfig}")
+    plt.yscale("log")   # eje Y logarítmico
+    plt.xscale("linear") # el eje X lo dejamos lineal
+    plt.xlabel("Physical error rate (p)")
+    plt.ylabel("Logical error rate (P_L)")
+    plt.title("Logical vs Physical Error Rates (BP vs Min-Sum Wrapper)")
+    plt.grid(True, which="both", ls="--", lw=0.7)
+    plt.legend()
+    plt.tight_layout()
 
-plt.yscale("log")   # eje Y logarítmico
-plt.xscale("linear") # el eje X lo dejamos lineal
-plt.xlabel("Physical error rate (p)")
-plt.ylabel("Logical error rate (P_L)")
-plt.title("Logical vs Physical Error Rates (BP vs Min-Sum Wrapper)")
-plt.grid(True, which="both", ls="--", lw=0.7)
-plt.legend()
-plt.tight_layout()
+    # Guardar en PNG
+    plt.savefig("logical_vs_physical_csc_5.png", dpi=300)
 
-# Guardar en PNG
-plt.savefig("logical_vs_physical_csc_5.png", dpi=300)
+if __name__ == "__main__":
+    main()
+
+
