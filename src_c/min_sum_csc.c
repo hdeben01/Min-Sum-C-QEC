@@ -115,7 +115,6 @@ void compute_row_operations(sparse_matrix_t *L,
         int minpos = -1;
         int sign_minpos = 0;
         int row_sign = 0;
-        double product = 1.0;
 
         // Search min1 and min2
         int start = L->offset_rows[i];

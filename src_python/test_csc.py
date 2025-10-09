@@ -37,7 +37,7 @@ def main():
     show_prints = False
     
     # List of codes to test in this example is the [[72, 12 ,6]] from https://www.nature.com/articles/s41586-024-07107-7
-    codesConfig = ["72"]
+    codesConfig = ["288"]
     
     # Number of Monte Carlo trials for physical error rates
     exp = 4
@@ -127,7 +127,7 @@ def main():
         pcm = sparse.csc_matrix(code.hx, dtype=np.uint8)    
                 
         # Code distance
-        d = 6
+        d = 12
         num_iterations = 100
      
 
@@ -291,7 +291,7 @@ def main():
     plt.tight_layout()
 
     # Guardar en PNG
-    plt.savefig("logical_vs_physical_csc_6.png", dpi=300)
+    plt.savefig("logical_vs_physical_csc_288.png", dpi=300)
 
 if __name__ == "__main__":
     main()
