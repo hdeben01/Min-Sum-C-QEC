@@ -17567,7 +17567,7 @@ PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
-PyDoc_STRVAR(__pyx_doc_11wrapper_csc_2init_sparse_matrix_t, "\n    Inicializa un sparse_matrix_t a partir de:\n      - L (np.ndarray[float64]): matriz de valores\n      - pcm (np.ndarray[int32]): matriz de paridad en formato comprimido\n\n    Devuelve:\n      SparseMatrix: objeto que envuelve el struct C\n    ");
+PyDoc_STRVAR(__pyx_doc_11wrapper_csc_2init_sparse_matrix_t, "\n    Inicializa un sparse_matrix_t a partir de:\n      - L (np.ndarray[float64]): matriz de valores completa (m*n)\n      - pcm (np.ndarray[int32]): matriz de paridad completa (m*n)\n\n    Devuelve:\n      SparseMatrix: objeto que envuelve el struct C\n    ");
 static PyMethodDef __pyx_mdef_11wrapper_csc_3init_sparse_matrix_t = {"init_sparse_matrix_t", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_11wrapper_csc_3init_sparse_matrix_t, __Pyx_METH_FASTCALL|METH_KEYWORDS, __pyx_doc_11wrapper_csc_2init_sparse_matrix_t};
 static PyObject *__pyx_pw_11wrapper_csc_3init_sparse_matrix_t(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
@@ -18629,7 +18629,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
  *         sm.mat.values_csr == NULL or sm.mat.edges == NULL):
  *         raise MemoryError("No se pudo reservar memoria para CSR/edges")             # <<<<<<<<<<<<<<
  * 
- *     # 1 Contar elementos en cada fila
+ *     #Contar elementos en cada fila
 */
     __pyx_t_2 = NULL;
     __Pyx_INCREF(__pyx_builtin_MemoryError);
@@ -18658,7 +18658,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
 
   /* "wrapper_csc.pyx":154
  * 
- *     # 1 Contar elementos en cada fila
+ *     #Contar elementos en cada fila
  *     cdef int[:] row_counts = np.zeros(rows, dtype=np.int32)             # <<<<<<<<<<<<<<
  *     for j in range(cols):
  *         for k in range(indptr[j], indptr[j + 1]):
@@ -18709,7 +18709,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
   __pyx_t_19.data = NULL;
 
   /* "wrapper_csc.pyx":155
- *     # 1 Contar elementos en cada fila
+ *     #Contar elementos en cada fila
  *     cdef int[:] row_counts = np.zeros(rows, dtype=np.int32)
  *     for j in range(cols):             # <<<<<<<<<<<<<<
  *         for k in range(indptr[j], indptr[j + 1]):
@@ -18825,7 +18825,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
  *         for k in range(indptr[j], indptr[j + 1]):
  *             row_counts[indices[k]] += 1             # <<<<<<<<<<<<<<
  * 
- *     # 2 Construir offset_rows
+ *     #Construir offset_rows
 */
       __pyx_t_23 = __pyx_v_k;
       __pyx_t_17 = -1;
@@ -18851,7 +18851,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
     }
 
     /* "wrapper_csc.pyx":155
- *     # 1 Contar elementos en cada fila
+ *     #Contar elementos en cada fila
  *     cdef int[:] row_counts = np.zeros(rows, dtype=np.int32)
  *     for j in range(cols):             # <<<<<<<<<<<<<<
  *         for k in range(indptr[j], indptr[j + 1]):
@@ -18862,7 +18862,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
 
   /* "wrapper_csc.pyx":160
  * 
- *     # 2 Construir offset_rows
+ *     #Construir offset_rows
  *     sm.mat.offset_rows[0] = 0             # <<<<<<<<<<<<<<
  *     for i in range(rows):
  *         sm.mat.offset_rows[i + 1] = sm.mat.offset_rows[i] + row_counts[i]
@@ -18870,7 +18870,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
   (__pyx_v_sm->mat->offset_rows[0]) = 0;
 
   /* "wrapper_csc.pyx":161
- *     # 2 Construir offset_rows
+ *     #Construir offset_rows
  *     sm.mat.offset_rows[0] = 0
  *     for i in range(rows):             # <<<<<<<<<<<<<<
  *         sm.mat.offset_rows[i + 1] = sm.mat.offset_rows[i] + row_counts[i]
@@ -18886,7 +18886,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
  *     for i in range(rows):
  *         sm.mat.offset_rows[i + 1] = sm.mat.offset_rows[i] + row_counts[i]             # <<<<<<<<<<<<<<
  * 
- *     # 3 Rellenar CSR
+ *     #Rellenar CSR
 */
     __pyx_t_14 = __pyx_v_i;
     __pyx_t_17 = -1;
@@ -18903,7 +18903,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
 
   /* "wrapper_csc.pyx":165
  * 
- *     # 3 Rellenar CSR
+ *     #Rellenar CSR
  *     cdef int[:] fill_ptr = np.zeros(rows, dtype=np.int32)             # <<<<<<<<<<<<<<
  *     cdef int pos
  *     for j in range(cols):
@@ -19127,7 +19127,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
  *             sm.mat.values_csr[pos] = sm.mat.values_csc[k]
  *             fill_ptr[i] += 1             # <<<<<<<<<<<<<<
  * 
- *     # 4 Construir edges (relacin CSC  CSR)
+ *     #Construir edges (relacin CSC  CSR)
 */
       __pyx_t_23 = __pyx_v_i;
       __pyx_t_17 = -1;
@@ -19154,7 +19154,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
 
   /* "wrapper_csc.pyx":176
  * 
- *     # 4 Construir edges (relacin CSC  CSR)
+ *     #Construir edges (relacin CSC  CSR)
  *     cdef int[:] col_counts = np.zeros(cols, dtype=np.int32)             # <<<<<<<<<<<<<<
  *     for i in range(rows):
  *         for k in range(sm.mat.offset_rows[i], sm.mat.offset_rows[i + 1]):
@@ -19205,7 +19205,7 @@ static PyObject *__pyx_pf_11wrapper_csc_4init_sparse_matrix_from_csc(CYTHON_UNUS
   __pyx_t_19.data = NULL;
 
   /* "wrapper_csc.pyx":177
- *     # 4 Construir edges (relacin CSC  CSR)
+ *     #Construir edges (relacin CSC  CSR)
  *     cdef int[:] col_counts = np.zeros(cols, dtype=np.int32)
  *     for i in range(rows):             # <<<<<<<<<<<<<<
  *         for k in range(sm.mat.offset_rows[i], sm.mat.offset_rows[i + 1]):

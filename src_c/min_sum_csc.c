@@ -154,7 +154,7 @@ void compute_row_operations(sparse_matrix_t *L,
         }
 
         // Assigning min2 to minpos
-        if(row_end_index - start > 0)
+        if(row_end_index - start > 1)
             L->values_csr[minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
     }
 }

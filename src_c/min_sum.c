@@ -81,6 +81,7 @@ void compute_row_operations(double *L,  int *non_zero,
         int sign_minpos = 0;
         int row_sign = 0;
         double product = 1.0;
+        int nnz_row = 0;
 
         // Search min1 and min2
         for(int j = 0; j < VNODES; j++){
@@ -98,6 +99,7 @@ void compute_row_operations(double *L,  int *non_zero,
                 }else if (abs_val < min2) {
                     min2 = abs_val;
                 }
+                nnz_row+=1;
             }
 
             row_sign = row_sign ^ (val >= 0 ? 0 : 1);
@@ -120,7 +122,8 @@ void compute_row_operations(double *L,  int *non_zero,
         }
 
         // Assigning min2 to minpos
-        L[i * VNODES + minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
+        if(nnz_row > 1)
+            L[i * VNODES + minpos] = (1.0f - 2.0f * (row_sign ^ sign_minpos ^ syndrome[i])) * min2;
     }
 }
 
@@ -134,13 +137,15 @@ void compute_col_operations(double *L,  int *non_zero,
 
         // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
         double sum_aux = 0.0f;
+        int sum_count = 0;
         for(int i = 0; i < CHECK; i++){
             if (i == size_checks) break;
 
             sum_aux += L[i * VNODES + j];
+            sum_count++;
         }
-
-        sum[j] = Lj[j] + (alpha * sum_aux);
+        if(sum_count > 0)
+            sum[j] = Lj[j] + (alpha * sum_aux);
     }
 
     for (int i = 0; i < CHECK; i++){

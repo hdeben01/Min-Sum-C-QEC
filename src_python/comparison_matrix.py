@@ -4,10 +4,11 @@ from ldpc import __version__ as ldpc_version
 from ldpc import BpDecoder  
 from ldpc.bplsd_decoder import BpLsdDecoder
 from ldpc import BpOsdDecoder  
-import matplotlib.pyplot as plt
 
 import sys
 import os
+
+# Añadir la carpeta padre al path
 
 # Añadir la carpeta padre al path
 
@@ -20,7 +21,10 @@ parent_dir = os.path.dirname(current_dir)
 # Añadir la carpeta del .so al path de Python
 sys.path.append(parent_dir)
 
-from wrapper_csc import compute_min_sum_wrapper,SparseMatrixWrapper,init_sparse_matrix_t, init_sparse_matrix_from_csc
+
+from wrapper_csc import compute_min_sum_wrapper,SparseMatrixWrapper,init_sparse_matrix_t
+from wrapper import compute_min_sum_wrapper_whole_matrix
+
 
 import numpy as np  
 import time  
@@ -30,9 +34,7 @@ from IBM_STIM import create_bivariate_bicycle_codes, build_circuit, select_confi
 
 
 
-
-
-def main():
+if __name__ == "__main__":
 
     show_prints = False
     
@@ -40,7 +42,7 @@ def main():
     codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 4
+    exp = 3
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
@@ -176,7 +178,7 @@ def main():
             # For more information about the parameters and the possible values you can visit:
             # https://software.roffe.eu/ldpc/quantum_decoder.html           
             print(channel_probs)    
-            _bp = BpDecoder(pcm, max_iter=num_iterations, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
+            _bp = BpDecoder(pcm, max_iter=100, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
             #_bposd = BpOsdDecoder(pcm, max_iter=100, error_rate=float(p), bp_method="minimum_sum", schedule = 'parallel', osd_method="osd_0")
 
             #-------------Código adicional para probar la librería------------
@@ -197,21 +199,19 @@ def main():
             time_av_BPOSD, time_max_BPOSD = 0, 0
             
             #convert L_flat and pcm to flat vectors and np arrays
-            #pcm_dense = pcm.astype(np.int32).toarray()
-            #pcm_flat = np.ascontiguousarray(pcm_dense.ravel(),dtype=np.int32)
-            #L_dense = L_flat.astype(np.double).toarray()
-            #L_flat = np.ascontiguousarray(L_dense.ravel(),dtype=np.double)
+            pcm_dense = pcm.astype(np.int32).toarray()
+            pcm_flat = np.ascontiguousarray(pcm_dense.ravel(),dtype=np.int32)
+            L_dense = L_flat.astype(np.double).toarray()
+            L_flat = np.ascontiguousarray(L_dense.ravel(),dtype=np.double)
             #-------------------------------------------------------------------
 
-            #sm = init_sparse_matrix_t(L_flat,pcm_flat)
-            L_values = np.zeros(pcm.nnz,np.float64)
-            sm = init_sparse_matrix_from_csc(pcm,L_values)
-
+     
+            sampler = circuit.compile_detector_sampler()
             # Start the Montecarlo simulations
             for iteration in range(NMCs[index]):
                 
                 # Take one sample of your quantum noise
-                sampler = circuit.compile_detector_sampler()
+                sm = init_sparse_matrix_t(L_flat,pcm_flat)
                 num_shots = 1
                 
                 # Assuming this quantum noise obtain the detectors that we read from the quantum computer and store the logical state + the error (observables)
@@ -221,29 +221,53 @@ def main():
                 # Decoders: We receive the detectors from the quantum processor and we predict the error with the decoder
                 # For more information about BP (min-sum) and OSD you can start reading: https://ieeexplore.ieee.org/document/9562513
                 
-                # Decoding with BP and measuring times
-                a = time.time()  
-                #print("detectors shape:", detectors[0] )
-                predicted_errors_bp = _bp.decode(detectors[0])
-                #print(predicted_errors_bp.shape)
-    
-                b = time.time() 
+                a = time.time() 
+                #predicted_errors_bp = _bp.decode(detectors[0])
+                b = time.time()
                 time_av_BP += (b - a) / NMCs[index]  
                 times_BP[codeConfig].append(b-a)
                 time_max_BP = max(time_max_BP, (b - a))  
                 
                 # Decoding with BPOSD and measuring times    
                 error_computed = np.zeros(pcm.shape[1],dtype=np.int32)
-              
+
+                beliefs_bp_library = np.zeros(sm.nnz,dtype=np.float64)
+                idx = 0
+                #for i in range(pcm.shape[0]):
+                    #for j in range(pcm.shape[1]):
+                        #if pcm[i, j] != 0:
+                           # beliefs_bp_library[idx] = np.log((1 - channel_probs[j]) / channel_probs[j])
+                            #idx += 1
                 
-                a = time.time()
                 #predicted_errors_osd = _bposd.decode(detectors[0])
-                L_array = compute_min_sum_wrapper(sm, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
-                                                    Lj.astype(np.double), alpha, num_iterations + 1, error_computed)
+                #print(beliefs_bp_library)
                 
-               
-                values_csr = L_array[0].values_csr
-                #print("values_csr\n", values_csr)
+                for j in range(num_iterations):
+                    
+                    L_array = compute_min_sum_wrapper(sm, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
+                                                    Lj.astype(np.double), alpha, 1, error_computed)
+                    L_array_whole = compute_min_sum_wrapper_whole_matrix(L_flat, pcm_flat, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
+                                                Lj.astype(np.double), alpha, 1, error_computed)
+                    
+                    
+                    #values_csr = L_array[0].values_csr
+                    #values_whole = L_array_whole[0]
+                    #print("values_csr: ", values_csr)
+                    #print("\n")
+                    #print("values_whole: ",values_whole)
+                    #print("\n")
+
+                    #print("values_bp_library\n",beliefs_bp_library)
+                    #print("erroes predecidos library",predicted_errors_bp)
+                    #for i in range(sm.nnz):
+                     #   elem = beliefs_bp_library[i]
+                      #  if not np.isclose(elem,0.0):
+                       #     if values_csr[i] != elem:
+                        #        pass
+                                #print("diferencia en elem",i,"con valor",values_csr[i] - elem)
+                          
+
+                
                 b = time.time()
                 time_av_BPOSD += (b - a) / NMCs[index]
                 times_BPOSD[codeConfig].append(b-a)
@@ -252,7 +276,7 @@ def main():
                 # Compute the logical error rate. First, we multiply the physical errors that were predicted (predicted_errors) by the observable matrix to get the logical state
                 # Then you compare the logical state obtained with your prediction with the real one (observables)
                
-                logical_error = (observable_mat@predicted_errors_bp+observables) % 2 # para comparar suma la matriz de errores predicha, que debería dar 0 con el mod 2
+                logical_error = (observable_mat@L_array_whole[1]+observables) % 2 # para comparar suma la matriz de errores predicha, que debería dar 0 con el mod 2
                 logical_error_osd = (observable_mat@error_computed+observables) % 2
 
                 # If just one of the logical qubits has an error, the whole decoding is considered a failure
@@ -270,30 +294,26 @@ def main():
             print(f'Physical error: {p}')
             print(f'Logical error BP: {PlBP/d} with average time {time_av_BP} and max time {time_max_BP}')
             print(f'Error Wrapper_min_sum: {PlBPOSD/d} with average time {time_av_BPOSD} and max time {time_max_BPOSD}')
-            print(f'Time improvement: {(( time_av_BP - time_av_BPOSD)/ time_av_BP) * 100} raw time improvement: {time_av_BP - time_av_BPOSD}')
             print(f'-------------------------------------------------')
 
 
-    # Plot logical error rates vs physical error rates
-    plt.figure(figsize=(8,6))
+import matplotlib.pyplot as plt
 
-    for codeConfig in codesConfig:
-        plt.plot(ps, PlsBP[codeConfig], marker="o", label=f"BP {codeConfig}")
-        plt.plot(ps, PlsBPOSD[codeConfig], marker="s", label=f"Min-Sum Wrapper {codeConfig}")
+# Plot logical error rates vs physical error rates
+plt.figure(figsize=(8,6))
 
-    plt.yscale("log")   # eje Y logarítmico
-    plt.xscale("linear") # el eje X lo dejamos lineal
-    plt.xlabel("Physical error rate (p)")
-    plt.ylabel("Logical error rate (P_L)")
-    plt.title("Logical vs Physical Error Rates (BP vs Min-Sum Wrapper)")
-    plt.grid(True, which="both", ls="--", lw=0.7)
-    plt.legend()
-    plt.tight_layout()
+for codeConfig in codesConfig:
+    plt.plot(ps, PlsBP[codeConfig], marker="o", label=f"BP {codeConfig}")
+    plt.plot(ps, PlsBPOSD[codeConfig], marker="s", label=f"Min-Sum Wrapper {codeConfig}")
 
-    # Guardar en PNG
-    plt.savefig("logical_vs_physical_csc_6.png", dpi=300)
+plt.yscale("log")   # eje Y logarítmico
+plt.xscale("linear") # el eje X lo dejamos lineal
+plt.xlabel("Physical error rate (p)")
+plt.ylabel("Logical error rate (P_L)")
+plt.title("Logical vs Physical Error Rates (BP vs Min-Sum Wrapper)")
+plt.grid(True, which="both", ls="--", lw=0.7)
+plt.legend()
+plt.tight_layout()
 
-if __name__ == "__main__":
-    main()
-
-
+# Guardar en PNG
+plt.savefig("csc_vs_matrix.png", dpi=300)
