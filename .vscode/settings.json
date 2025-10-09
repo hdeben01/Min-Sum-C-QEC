@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "math.h": "c",
-        "compute_check_to_value_msg.h": "c"
+        "compute_check_to_value_msg.h": "c",
+        "min_sum.h": "c"
     }
 }

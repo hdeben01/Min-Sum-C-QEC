@@ -5,15 +5,22 @@ from ldpc import BpDecoder
 from ldpc.bplsd_decoder import BpLsdDecoder
 from ldpc import BpOsdDecoder  
 import matplotlib.pyplot as plt
-from memory_profiler import profile
 
 import sys
 import os
 
 # Añadir la carpeta padre al path
 
+# Obtener la ruta absoluta del directorio actual (src/)
+current_dir = os.path.dirname(os.path.abspath(__file__))
 
-from wrapper_csc import compute_min_sum_wrapper,SparseMatrixWrapper,init_sparse_matrix_t
+# Subir un nivel para llegar a la carpeta donde está el .so
+parent_dir = os.path.dirname(current_dir)
+
+# Añadir la carpeta del .so al path de Python
+sys.path.append(parent_dir)
+
+from wrapper_csc import compute_min_sum_wrapper,SparseMatrixWrapper,init_sparse_matrix_t, init_sparse_matrix_from_csc
 
 import numpy as np  
 import time  
@@ -25,7 +32,6 @@ from IBM_STIM import create_bivariate_bicycle_codes, build_circuit, select_confi
 
 
 
-@profile
 def main():
 
     show_prints = False
@@ -191,20 +197,21 @@ def main():
             time_av_BPOSD, time_max_BPOSD = 0, 0
             
             #convert L_flat and pcm to flat vectors and np arrays
-            pcm_dense = pcm.astype(np.int32).toarray()
-            pcm_flat = np.ascontiguousarray(pcm_dense.ravel(),dtype=np.int32)
-            L_dense = L_flat.astype(np.double).toarray()
-            L_flat = np.ascontiguousarray(L_dense.ravel(),dtype=np.double)
+            #pcm_dense = pcm.astype(np.int32).toarray()
+            #pcm_flat = np.ascontiguousarray(pcm_dense.ravel(),dtype=np.int32)
+            #L_dense = L_flat.astype(np.double).toarray()
+            #L_flat = np.ascontiguousarray(L_dense.ravel(),dtype=np.double)
             #-------------------------------------------------------------------
 
-            sm = init_sparse_matrix_t(L_flat,pcm_flat)
-            sampler = circuit.compile_detector_sampler()
+            #sm = init_sparse_matrix_t(L_flat,pcm_flat)
+            L_values = np.zeros(pcm.nnz,np.float64)
+            sm = init_sparse_matrix_from_csc(pcm,L_values)
 
             # Start the Montecarlo simulations
             for iteration in range(NMCs[index]):
                 
                 # Take one sample of your quantum noise
-                
+                sampler = circuit.compile_detector_sampler()
                 num_shots = 1
                 
                 # Assuming this quantum noise obtain the detectors that we read from the quantum computer and store the logical state + the error (observables)
@@ -235,7 +242,8 @@ def main():
                                                     Lj.astype(np.double), alpha, num_iterations + 1, error_computed)
                 
                
-                
+                values_csr = L_array[0].values_csr
+                #print("values_csr\n", values_csr)
                 b = time.time()
                 time_av_BPOSD += (b - a) / NMCs[index]
                 times_BPOSD[codeConfig].append(b-a)
@@ -283,7 +291,7 @@ def main():
     plt.tight_layout()
 
     # Guardar en PNG
-    plt.savefig("logical_vs_physical_csc_5.png", dpi=300)
+    plt.savefig("logical_vs_physical_csc_6.png", dpi=300)
 
 if __name__ == "__main__":
     main()

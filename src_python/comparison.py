@@ -12,7 +12,7 @@ import os
 
 
 from wrapper_csc import compute_min_sum_wrapper,SparseMatrixWrapper,init_sparse_matrix_t
-from wrapper import compute_min_sum_wrapper_whole_matrix
+
 
 import numpy as np  
 import time  
@@ -30,7 +30,7 @@ if __name__ == "__main__":
     codesConfig = ["72"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 3
+    exp = 2
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
@@ -166,7 +166,7 @@ if __name__ == "__main__":
             # For more information about the parameters and the possible values you can visit:
             # https://software.roffe.eu/ldpc/quantum_decoder.html           
             print(channel_probs)    
-            _bp = BpDecoder(pcm, max_iter=num_iterations, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
+            _bp = BpDecoder(pcm, max_iter=100, bp_method="minimum_sum", channel_probs=matrices.priors,ms_scaling_factor=1.0)
             #_bposd = BpOsdDecoder(pcm, max_iter=100, error_rate=float(p), bp_method="minimum_sum", schedule = 'parallel', osd_method="osd_0")
 
             #-------------Código adicional para probar la librería------------
@@ -178,7 +178,7 @@ if __name__ == "__main__":
             for j in range(pcm.shape[1]):
                 for i in range(pcm.shape[0]):
                     if L_flat[i, j] == 1.0:
-                        L_flat[i, j] = 0#np.log((1 - channel_probs[j])/channel_probs[j])
+                        L_flat[i, j] = np.log((1 - channel_probs[j])/channel_probs[j])
             
             
             # Initialize variables for tracking performance
@@ -193,14 +193,13 @@ if __name__ == "__main__":
             L_flat = np.ascontiguousarray(L_dense.ravel(),dtype=np.double)
             #-------------------------------------------------------------------
 
-            sm = init_sparse_matrix_t(L_flat,pcm_flat)
-            print("non zero elements: ", sm.nnz)
-
+     
+            sampler = circuit.compile_detector_sampler()
             # Start the Montecarlo simulations
             for iteration in range(NMCs[index]):
                 
                 # Take one sample of your quantum noise
-                sampler = circuit.compile_detector_sampler()
+                sm = init_sparse_matrix_t(L_flat,pcm_flat)
                 num_shots = 1
                 
                 # Assuming this quantum noise obtain the detectors that we read from the quantum computer and store the logical state + the error (observables)
@@ -210,47 +209,46 @@ if __name__ == "__main__":
                 # Decoders: We receive the detectors from the quantum processor and we predict the error with the decoder
                 # For more information about BP (min-sum) and OSD you can start reading: https://ieeexplore.ieee.org/document/9562513
                 
-                # Decoding with BP and measuring times
-                a = time.time()  
-                #print("detectors shape:", detectors[0] )
+                a = time.time() 
                 predicted_errors_bp = _bp.decode(detectors[0])
-                #print(predicted_errors_bp.shape)
-    
-                b = time.time() 
+                b = time.time()
                 time_av_BP += (b - a) / NMCs[index]  
                 times_BP[codeConfig].append(b-a)
                 time_max_BP = max(time_max_BP, (b - a))  
                 
                 # Decoding with BPOSD and measuring times    
                 error_computed = np.zeros(pcm.shape[1],dtype=np.int32)
-              
+
+                beliefs_bp_library = np.zeros(sm.nnz,dtype=np.float64)
+                idx = 0
+                #for i in range(pcm.shape[0]):
+                    #for j in range(pcm.shape[1]):
+                        #if pcm[i, j] != 0:
+                           # beliefs_bp_library[idx] = np.log((1 - channel_probs[j]) / channel_probs[j])
+                            #idx += 1
                 
-                a = time.time()
                 #predicted_errors_osd = _bposd.decode(detectors[0])
-                
+                #print(beliefs_bp_library)
                 
                 for j in range(num_iterations + 1):
                     
                     L_array = compute_min_sum_wrapper(sm, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
                                                     Lj.astype(np.double), alpha, 1, error_computed)
                     
-                    L_whole_array = compute_min_sum_wrapper_whole_matrix(L_flat, pcm_flat, detectors[0].astype(np.int32), pcm.shape[0], pcm.shape[1],
-                                                Lj.astype(np.double), alpha, 1, error_computed)
-                   
+                    #predicted_errors_bp = _bp.decode_with_messages(detectors[0],beliefs_bp_library)
+                    #beliefs_bp_library = _bp.get_messages()
                     values_csr = L_array[0].values_csr
                     #print("values_csc\n", values_csc)
                     print("values_csr\n", values_csr)
-                    print("values_whole_matrix\n",L_whole_array[0])
-                    index_csr = 0
-                    for i in range(pcm.shape[0]):
-                        for z in range (pcm.shape[1]):
-                           
-                            elem = L_whole_array[0][i * pcm.shape[1] + z]
-                            if not np.isclose(elem,0.0):
-                                if values_csr[index_csr] != elem:
-                                   
-                                    print("diferencia en elem",index_csr,"con valor",values_csr[index_csr] - elem)
-                                index_csr += 1
+                    #print("values_bp_library\n",beliefs_bp_library)
+                    #print("erroes predecidos library",predicted_errors_bp)
+                    #for i in range(sm.nnz):
+                     #   elem = beliefs_bp_library[i]
+                      #  if not np.isclose(elem,0.0):
+                       #     if values_csr[i] != elem:
+                        #        pass
+                                #print("diferencia en elem",i,"con valor",values_csr[i] - elem)
+                          
 
                 
                 b = time.time()

@@ -1,4 +1,4 @@
-#include "min_sum_csc.h"
+#include "../include/min_sum_csc.h"
 
 
 

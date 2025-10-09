@@ -1,4 +1,4 @@
-#include "min_sum.h"
+#include "../include/min_sum.h"
 
 
 
