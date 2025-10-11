@@ -87,6 +87,14 @@ void min_sum(sparse_matrix_t *L,
         }
         int error_found = 1;
 
+        for(int i = 0; i < CHECK; i++){
+            if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
+        }
+
+        if(error_found) {
+            
+            break;
+        }
         // ----------- DEBUG PRINT --------------
         /*
         for(int i = 0; i < CHECK; i++){

@@ -37,10 +37,10 @@ def main():
     show_prints = False
     
     # List of codes to test in this example is the [[72, 12 ,6]] from https://www.nature.com/articles/s41586-024-07107-7
-    codesConfig = ["288"]
+    codesConfig = ["144"]
     
     # Number of Monte Carlo trials for physical error rates
-    exp = 4
+    exp = 3
     NMCs = [10**exp, 10**exp, 10**exp, 10**exp, 10**exp]  
     
     # Physical error rate that is simulated
@@ -128,7 +128,7 @@ def main():
                 
         # Code distance
         d = 12
-        num_iterations = 100
+        num_iterations = 1000
      
 
         # {3: []}
@@ -291,7 +291,7 @@ def main():
     plt.tight_layout()
 
     # Guardar en PNG
-    plt.savefig("logical_vs_physical_csc_288.png", dpi=300)
+    plt.savefig("logical_vs_physical_csc_144_1k.png", dpi=300)
 
 if __name__ == "__main__":
     main()
