@@ -51,15 +51,15 @@ void min_sum(double *L,  int *pcm_matrix,
         int error_found = 1;
 
         // ----------- DEBUG PRINT --------------
-        //printf("\tResulting syndrome: ");
+        printf("\tResulting syndrome: ");
         for(int i = 0; i < CHECK; i++){
-            //printf("%d ",resulting_syndrome[i]);
+            printf("%d ",resulting_syndrome[i]);
             if(resulting_syndrome[i] != syndrome[i]) error_found = 0;
         }
-        //printf("\n");
+        printf("\n");
 
         if(error_found) {
-            //color_printf(GREEN, "\tERROR FOUND\n");
+            color_printf(GREEN, "\tERROR FOUND\n");
             break;
         }
         //else if (i == num_it - 1) color_printf(RED, "\nUSED ALL ITERATIONS WITHOUT FINDING THE ERROR");
@@ -166,7 +166,7 @@ int main() {
     int *pcm_matrix;//[CHECK][VNODES];
     pcm_matrix = (int*)malloc(CHECK*VNODES*sizeof(int));
     double Lj[VNODES];
-    FILE *file = fopen("input3.txt","r");
+    FILE *file = fopen("input_sliding.txt","r");
     if (file == NULL){
         perror("Error opening file");
         return 1;
@@ -242,11 +242,11 @@ int main() {
         fclose(file);
         return 1;
     }
-    int error_computed[CHECK];
+    int error_computed[VNODES];
     printf("Max Iterations: %d\n\n", num_it);
 
     printf("Initial L Matrix:\n");
-    show_matrix(L, pcm_matrix, rows, cols);
+    //show_matrix(L, pcm_matrix, rows, cols);
 
     min_sum(L, pcm_matrix, syndrome, rows, cols, Lj, alpha, num_it,&error_computed[0]);
     
