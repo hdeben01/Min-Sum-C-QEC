@@ -77,7 +77,7 @@ def generar_archivos_raw_h(pcm, config_name):
     # Función auxiliar para escribir arrays aplanados con coma al final
     def write_raw_h(filename, data_array):
         with open(filename, 'w') as f:
-            f.write(", ".join(map(str, data_array.flatten())))
+            f.write(" ".join(map(str, data_array.flatten())))
             f.write(", ") # Añade la coma y espacio final requerida
         print(f"Archivo raw guardado: {filename}")
 
@@ -85,6 +85,7 @@ def generar_archivos_raw_h(pcm, config_name):
     write_raw_h(f"col_edges_{config_name}.h", col_edges)
     write_raw_h(f"row_weight_{config_name}.h", row_weights)
     write_raw_h(f"col_weight_{config_name}.h", col_weights)
+    write_raw_h(f"datos_exportados_{config_name}.h", pcm.toarray())
 
     return max_row_degree, max_col_degree
 
