@@ -307,7 +307,7 @@ int main() {
     //printf("Initial L Matrix:\n");
     //show_matrix(L, pcm_matrix, rows, cols);
 
-    int error_computed[CHECK];
+    int error_computed[VNODES];
 
     min_sum(L_sparse, syndrome, rows, cols, Lj, alpha, num_it, &error_computed[0]);
     
