@@ -111,7 +111,7 @@ def guardar_sindrome_custom(filename, pcm, syndrome):
 # Main
 # --------------------------------------------------------------------------
 def main_export():
-    codeConfig = "72" 
+    codeConfig = "144" 
     p = 0.005 
     print(f"Generando datos para configuración: {codeConfig} con p={p}")
 

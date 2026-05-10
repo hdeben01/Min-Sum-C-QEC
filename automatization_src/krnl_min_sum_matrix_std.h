@@ -1,8 +1,8 @@
 #ifndef VNODES
-#define VNODES 432
+#define VNODES 540
 #endif
 #ifndef CHECK 
-#define CHECK  72
+#define CHECK  90
 #endif
 
 #ifndef MAX_ROW_DEGREE

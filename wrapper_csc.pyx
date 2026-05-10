@@ -27,7 +27,7 @@ from libc.stdlib cimport malloc, free
 
 from scipy import sparse
 from libc.stdlib cimport malloc, free, calloc
-#we define the header for the C function we want to call, it has to match the C function signature
+#Primero definimos el header de las funciones C que queramos llamar, deben coincidir exactamente con la definición en el header .h
 
 cdef extern from "min_sum_csc.h":
     ctypedef struct sparse_matrix_t:
@@ -49,11 +49,11 @@ cdef extern from "min_sum_csc.h":
     void to_sparse_matrix_t(double *L,sparse_matrix_t * out,  int *pcm)
 
 
-#in order to use the wrapper is necessary to flatten the matrices first
+#Para usar la librería es necesario aplanar las matrices primero
 def compute_min_sum_wrapper(SparseMatrixWrapper L,syndrome,size_checks,size_vnodes,priors,alpha,num_it,error_computed):
    
     
-    #create memoryviews so we can pass numpy array pointers to C function
+    #Creacion de memoryviews para pasar a la función C
  
     cdef int[::1] syndrome_array = syndrome
     cdef double[::1] priors_array = priors
@@ -172,7 +172,7 @@ def init_sparse_matrix_from_csc(pcm, L_values):
             sm.mat.values_csr[pos] = sm.mat.values_csc[k]
             fill_ptr[i] += 1
 
-    #Construir edges (relación CSC ↔ CSR)
+    #Construir edges 
     cdef int[:] col_counts = np.zeros(cols, dtype=np.int32)
     for i in range(rows):
         for k in range(sm.mat.offset_rows[i], sm.mat.offset_rows[i + 1]):
@@ -183,7 +183,7 @@ def init_sparse_matrix_from_csc(pcm, L_values):
 
     return sm
 
-# Wrapper class for the c struct sparse_matrix_t
+# Clase wrapper
 cdef class SparseMatrixWrapper:
     cdef sparse_matrix_t *mat
 

@@ -135,7 +135,7 @@ void compute_col_operations(double *L,  int *non_zero,
     for (int j = 0; j < VNODES; j++){
         if (j == size_vnode) break;
 
-        // Possible optimization: Read entire column L[][j] to another variable beforehand and then add the values
+
         double sum_aux = 0.0f;
         int sum_count = 0;
         for(int i = 0; i < CHECK; i++){
